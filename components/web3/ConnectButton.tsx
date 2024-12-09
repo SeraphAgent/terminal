@@ -17,7 +17,7 @@ export function ConnectButton() {
         >
           <Wallet className="mr-2 h-4 w-4" />
           {isConnected && address
-            ? `${address.slice(0, 4)}...${address.slice(-4)}`
+            ? `${address.slice(0, 6)}...${address.slice(-4)}`
             : isConnecting
             ? 'Connecting...'
             : 'Connect Wallet'}
