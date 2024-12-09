@@ -1,13 +1,21 @@
 'use client'
 
 import { Terminal } from '@/components/terminal'
+import { seraphContractConfig } from '@/constants/contract-config'
 import { useEffect, useState } from 'react'
-import { useAccount } from 'wagmi'
+import { useAccount, useReadContract } from 'wagmi'
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false)
 
-  const { isConnected } = useAccount()
+  const { address, isConnected } = useAccount()
+
+  const { data: rawBalance } = useReadContract({
+    ...seraphContractConfig,
+    functionName: 'balanceOf',
+    args: [address],
+  })
+  const balance = rawBalance ? BigInt(rawBalance.toString()) : BigInt(0)
 
   useEffect(() => {
     setTimeout(() => setIsLoaded(true), 1000)
@@ -29,7 +37,12 @@ export default function Home() {
               Neural Consensus Interface v1.0
             </p>
           </header>
-          {isConnected && <Terminal />}
+          {isConnected && balance > BigInt(0) && <Terminal />}
+          {isConnected && balance <= BigInt(0) && (
+            <div className="text-center text-green-500 font-mono mt-8">
+              You need to be a $SERAPH holder to access the terminal.
+            </div>
+          )}
           {!isConnected && (
             <div className="text-center text-green-500 font-mono mt-8">
               Please connect your wallet to access the terminal.
