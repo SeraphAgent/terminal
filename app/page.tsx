@@ -2,9 +2,12 @@
 
 import { Terminal } from '@/components/terminal'
 import { useEffect, useState } from 'react'
+import { useAccount } from 'wagmi'
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false)
+
+  const { isConnected } = useAccount()
 
   useEffect(() => {
     setTimeout(() => setIsLoaded(true), 1000)
@@ -26,7 +29,12 @@ export default function Home() {
               Neural Consensus Interface v1.0
             </p>
           </header>
-          <Terminal />
+          {isConnected && <Terminal />}
+          {!isConnected && (
+            <div className="text-center text-green-500 font-mono mt-8">
+              Please connect your wallet to access the terminal.
+            </div>
+          )}
         </div>
       </div>
     </main>

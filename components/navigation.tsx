@@ -18,7 +18,7 @@ export function Navigation() {
   return (
     <nav className="border-b border-green-500/30 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex h-16 items-center">
+        <div className="flex h-16 items-center justify-between">
           <div className="flex space-x-8">
             {links.map(({ href, label, icon: Icon }) => (
               <Link
