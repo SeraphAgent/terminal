@@ -22,8 +22,9 @@ export function DigitalRain() {
     for (let i = 0; i < columns; i++) {
       drops[i] = 1;
     }
-
     function draw() {
+      if (!ctx || !canvas) return;
+      
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
