@@ -2,9 +2,11 @@
 
 import { Terminal } from "@/components/terminal";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const { isConnected } = useAuth();
 
   useEffect(() => {
     setTimeout(() => setIsLoaded(true), 1000);
@@ -18,7 +20,12 @@ export default function Home() {
             <h1 className="text-4xl font-mono font-bold mb-2 glitch-text">SERAPH TERMINAL</h1>
             <p className="text-green-400 font-mono">Neural Consensus Interface v1.0</p>
           </header>
-          <Terminal />
+          {isConnected && <Terminal />}
+          {!isConnected && (
+            <div className="text-center text-green-500 font-mono mt-8">
+              Please connect your wallet to access the terminal.
+            </div>
+          )}
         </div>
       </div>
     </main>

@@ -4,9 +4,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Terminal, BarChart2, FileText } from 'lucide-react';
+import { ConnectButton } from './web3/connect-button';
+import { useAuth } from '@/hooks/use-auth';
 
 export function Navigation() {
   const pathname = usePathname();
+  const { isConnected } = useAuth();
 
   const links = [
     { href: '/', label: 'Home', icon: Terminal },
@@ -17,7 +20,7 @@ export function Navigation() {
   return (
     <nav className="border-b border-green-500/30 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex h-16 items-center">
+        <div className="flex h-16 items-center justify-between">
           <div className="flex space-x-8">
             {links.map(({ href, label, icon: Icon }) => (
               <Link
@@ -35,6 +38,7 @@ export function Navigation() {
               </Link>
             ))}
           </div>
+          <ConnectButton />
         </div>
       </div>
     </nav>

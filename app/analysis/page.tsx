@@ -5,8 +5,10 @@ import { aiAgents } from '@/lib/data';
 import { StatusBadge } from '@/components/status-badge';
 import { TrustScore } from '@/components/trust-score';
 import { Search, SortAsc, SortDesc } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function Analysis() {
+  useAuth(); // Protected route
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState<{
     key: keyof typeof aiAgents[0];
