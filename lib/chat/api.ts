@@ -21,7 +21,7 @@ export class VirtualsAPI {
         },
         body: JSON.stringify({
           data: {
-            userUid: userAddress,
+            userUid: userAddress || 'test-user', // Fallback for testing
             virtualUid: VIRTUALS_CONFIG.VIRTUAL_UID
           }
         })
@@ -42,9 +42,9 @@ export class VirtualsAPI {
     }
   }
 
-  static async sendMessage(userAddress: string, message: string): Promise<string> {
+  static async sendMessage(userAddress: string | undefined, message: string): Promise<string> {
     try {
-      const accessToken = await this.getAccessToken(userAddress);
+      const accessToken = await this.getAccessToken(userAddress || 'test-user');
 
       const response = await fetch(VIRTUALS_CONFIG.CONVERSATION_URL, {
         method: 'POST',
@@ -56,7 +56,7 @@ export class VirtualsAPI {
           data: {
             useCaseId: 'roleplay',
             text: message,
-            opponent: userAddress,
+            opponent: userAddress || 'test_user',
             additionalContext: 'Seraph is a decentralized neural consensus system operating on the Bittensor network.'
           }
         })

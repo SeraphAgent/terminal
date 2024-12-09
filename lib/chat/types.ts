@@ -13,3 +13,16 @@ export interface ChatMessage {
 export interface ConversationResponse {
   response: string;
 }
+
+export interface ChatState {
+  messages: ChatMessage[];
+  isLoading: boolean;
+  error: string | null;
+}
+
+export class APIError extends Error {
+  constructor(message: string, public status?: number) {
+    super(message);
+    this.name = 'APIError';
+  }
+}
