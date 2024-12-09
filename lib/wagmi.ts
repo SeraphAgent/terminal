@@ -1,4 +1,4 @@
-import { createConfig, createStorage, http } from 'wagmi'
+import { createConfig, http } from 'wagmi'
 import { base } from 'wagmi/chains'
 import { walletConnect } from 'wagmi/connectors'
 
@@ -10,13 +10,10 @@ export function getConfig() {
         projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID!,
       }),
     ],
-    ssr: true,
+    ssr: false,
     transports: {
       [base.id]: http(),
     },
-    storage: createStorage({
-      storage: localStorage,
-    }),
   })
 }
 
