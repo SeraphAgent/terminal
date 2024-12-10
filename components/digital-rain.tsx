@@ -15,7 +15,10 @@ export function DigitalRain() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const chars = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン".split("");
+    const chars =
+      "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン".split(
+        ""
+      );
     const columns = canvas.width / 20;
     const drops: number[] = [];
 
@@ -24,7 +27,7 @@ export function DigitalRain() {
     }
     function draw() {
       if (!ctx || !canvas) return;
-      
+
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 

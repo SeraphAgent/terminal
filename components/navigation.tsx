@@ -1,19 +1,19 @@
-'use client'
+"use client";
 
-import { cn } from '@/lib/utils'
-import { BarChart2, FileText, Terminal } from 'lucide-react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { ConnectButton } from './web3/ConnectButton'
+import { cn } from "@/lib/utils";
+import { BarChart2, FileText, Terminal } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ConnectButton } from "./web3/ConnectButton";
 
 export function Navigation() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const links = [
-    { href: '/', label: 'Home', icon: Terminal },
-    { href: '/analysis', label: 'Analysis', icon: BarChart2 },
-    { href: '/docs', label: 'Docs', icon: FileText },
-  ]
+    { href: "/", label: "Home", icon: Terminal },
+    { href: "/analysis", label: "Analysis", icon: BarChart2 },
+    { href: "/docs", label: "Docs", icon: FileText },
+  ];
 
   return (
     <nav className="border-b border-green-500/30 backdrop-blur-sm">
@@ -25,10 +25,10 @@ export function Navigation() {
                 key={href}
                 href={href}
                 className={cn(
-                  'flex items-center space-x-2 text-sm font-medium transition-colors hover:text-green-400',
+                  "flex items-center space-x-2 text-sm font-medium transition-colors hover:text-green-400",
                   pathname === href
-                    ? 'text-green-500 border-b-2 border-green-500'
-                    : 'text-green-500/70'
+                    ? "text-green-500 border-b-2 border-green-500"
+                    : "text-green-500/70"
                 )}
               >
                 <Icon className="w-4 h-4" />
@@ -40,5 +40,5 @@ export function Navigation() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
