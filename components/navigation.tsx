@@ -1,20 +1,18 @@
 "use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { Terminal, BarChart2, FileText } from 'lucide-react';
-import { ConnectButton } from './web3/connect-button';
-import { useAuth } from '@/hooks/use-auth';
+import { cn } from "@/lib/utils";
+import { BarChart2, FileText, Terminal } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ConnectButton } from "./web3/ConnectButton";
 
 export function Navigation() {
   const pathname = usePathname();
-  const { isConnected } = useAuth();
 
   const links = [
-    { href: '/', label: 'Home', icon: Terminal },
-    { href: '/analysis', label: 'Analysis', icon: BarChart2 },
-    { href: '/docs', label: 'Docs', icon: FileText },
+    { href: "/", label: "Home", icon: Terminal },
+    { href: "/analysis", label: "Analysis", icon: BarChart2 },
+    { href: "/docs", label: "Docs", icon: FileText },
   ];
 
   return (
