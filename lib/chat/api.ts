@@ -1,30 +1,33 @@
-import { VIRTUALS_CONFIG } from './config';
-import { AccessTokenResponse, ConversationResponse } from './types';
+import { AccessTokenResponse } from "./types";
 
 export class VirtualsAPI {
   private static accessToken: string | null = null;
   private static tokenExpiryTime: number | null = null;
 
-  private static async getAccessToken(userAddress: string): Promise<string> {
+  static async getAccessToken(userAddress: string): Promise<string> {
+    if (!userAddress) {
+      throw new Error("User address is required for authentication");
+    }
+
     // Check if token exists and is not expired (giving 1 minute buffer)
     const now = Date.now();
-    if (this.accessToken && this.tokenExpiryTime && now < this.tokenExpiryTime - 60000) {
+    if (
+      this.accessToken &&
+      this.tokenExpiryTime &&
+      now < this.tokenExpiryTime - 60000
+    ) {
       return this.accessToken;
     }
 
     try {
-      const response = await fetch(`${VIRTUALS_CONFIG.BASE_URL}/api/accesses/tokens`, {
-        method: 'POST',
+      const response = await fetch("/api/virtuals/token", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'X-API-KEY': VIRTUALS_CONFIG.API_KEY,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          data: {
-            userUid: userAddress || 'test-user', // Fallback for testing
-            virtualUid: VIRTUALS_CONFIG.VIRTUAL_UID
-          }
-        })
+          userAddress,
+        }),
       });
 
       if (!response.ok) {
@@ -33,43 +36,42 @@ export class VirtualsAPI {
 
       const data: AccessTokenResponse = await response.json();
       this.accessToken = data.data.accessToken;
-      // Set token expiry to 30 minutes from now
       this.tokenExpiryTime = now + 30 * 60 * 1000;
       return this.accessToken;
     } catch (error) {
-      console.error('Error getting access token:', error);
+      console.error("Error getting access token:", error);
       throw error;
     }
   }
 
-  static async sendMessage(userAddress: string | undefined, message: string): Promise<string> {
+  static async sendMessage(
+    userAddress: string | undefined,
+    message: string
+  ): Promise<string> {
     try {
-      const accessToken = await this.getAccessToken(userAddress || 'test-user');
+      if (!userAddress) {
+        throw new Error("User address is required");
+      }
 
-      const response = await fetch(VIRTUALS_CONFIG.CONVERSATION_URL, {
-        method: 'POST',
+      const response = await fetch("/api/virtuals/message", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          data: {
-            useCaseId: 'roleplay',
-            text: message,
-            opponent: userAddress || 'test_user',
-            additionalContext: 'Seraph is a decentralized neural consensus system operating on the Bittensor network.'
-          }
-        })
+          userAddress,
+          message,
+        }),
       });
 
       if (!response.ok) {
         throw new Error(`Failed to send message: ${response.statusText}`);
       }
 
-      const data: ConversationResponse = await response.json();
+      const data = await response.json();
       return data.response;
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error sending message:", error);
       throw error;
     }
   }
