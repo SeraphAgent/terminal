@@ -1,6 +1,8 @@
 import { VIRTUALS_CONFIG } from "@/lib/chat/config";
 import { ConversationResponse, AccessTokenResponse } from "@/lib/chat/types";
 
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   try {
     const { userAddress, message } = await request.json();
