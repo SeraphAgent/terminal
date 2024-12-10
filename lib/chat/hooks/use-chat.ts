@@ -51,9 +51,9 @@ export function useChat() {
       }));
 
       try {
-        console.log("Sending message:", message);
         const response = await APIService.sendMessage(address, message);
-        console.log("Received response:", response);
+        // remove undefined: from the response
+        const cleanedResponse = response.replace(/(?:undefined: )+/g, "");
 
         setState((prev) => ({
           ...prev,
@@ -61,7 +61,7 @@ export function useChat() {
             ...prev.messages,
             {
               type: "output",
-              content: response,
+              content: cleanedResponse,
               timestamp: Date.now(),
             },
           ],

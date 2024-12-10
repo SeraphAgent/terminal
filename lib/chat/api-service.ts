@@ -32,7 +32,6 @@ export class APIService {
       }
 
       const data = await response.json();
-      console.log("API Response:", data);
 
       if (data.response) {
         return data.response;
