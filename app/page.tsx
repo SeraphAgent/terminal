@@ -11,7 +11,7 @@ export default function Home() {
     setTimeout(() => setIsLoaded(true), 1000)
   }, [])
 
-  const { isConnected, balance } = useAuth()
+  const { isConnected, isSignedIn, balance } = useAuth()
 
   return (
     <main className="relative">
@@ -29,10 +29,15 @@ export default function Home() {
               Neural Consensus Interface v0.0.7
             </p>
           </header>
-          {isConnected && balance > BigInt(0) && <Terminal />}
-          {isConnected && balance <= BigInt(0) && (
+          {isConnected && isSignedIn && balance > BigInt(0) && <Terminal />}
+          {isConnected && isSignedIn && balance <= BigInt(0) && (
             <div className="text-center text-green-500 font-mono mt-8">
               You need to be a $SERAPH holder to access the terminal.
+            </div>
+          )}
+          {isConnected && !isSignedIn && (
+            <div className="text-center text-green-500 font-mono mt-8">
+              Please sign in with your wallet to access the terminal.
             </div>
           )}
           {!isConnected && (
