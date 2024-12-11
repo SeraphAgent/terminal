@@ -3,6 +3,8 @@ import { tap } from '@/lib/utils'
 import { NextRequest, NextResponse } from 'next/server'
 import { SiweErrorType, SiweMessage, generateNonce } from 'siwe'
 
+export const runtime = 'edge'
+
 export const GET = async (req: NextRequest): Promise<NextResponse> => {
   const session = await Session.fromRequest(req)
 
