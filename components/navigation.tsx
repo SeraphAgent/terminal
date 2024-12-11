@@ -1,18 +1,18 @@
 'use client'
 
+import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
 import { BarChart2, FileText, Terminal } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useAccount } from 'wagmi'
 import { ConnectButton } from './web3/ConnectButton'
 
 export function Navigation() {
-  const { isConnected } = useAccount()
-
   const pathname = usePathname()
 
-  const links = !isConnected
+  const { isAuth } = useAuth()
+
+  const links = !isAuth
     ? null
     : [
         { href: '/', label: 'Home', icon: Terminal },

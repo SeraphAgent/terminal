@@ -1,10 +1,6 @@
-"use client";
-
-import { useAuth } from "@/hooks/use-auth";
+'use client'
 
 export default function Docs() {
-  useAuth(); // Protected route
-
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-mono font-bold mb-4 text-green-500">
@@ -123,5 +119,5 @@ export default function Docs() {
         </div>
       </div>
     </div>
-  );
+  )
 }
