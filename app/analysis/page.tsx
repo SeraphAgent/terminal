@@ -1,11 +1,8 @@
-"use client";
+'use client'
 
-import { BlurredTable } from "@/components/blurred-table";
-import { useAuth } from "@/hooks/use-auth";
+import { BlurredTable } from '@/components/blurred-table'
 
 export default function Analysis() {
-  useAuth(); // Protected route
-
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
@@ -16,5 +13,5 @@ export default function Analysis() {
 
       <BlurredTable />
     </div>
-  );
+  )
 }
