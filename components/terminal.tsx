@@ -9,10 +9,20 @@ export function Terminal() {
   const { messages, isLoading, sendMessage, sendImage } = useChat()
   const [input, setInput] = useState('')
   const terminalEndRef = useRef<HTMLDivElement>(null)
+  const [analyzingDots, setAnalyzingDots] = useState('')
 
   useEffect(() => {
     terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  useEffect(() => {
+    if (!isLoading) return
+    const interval = setInterval(() => {
+      setAnalyzingDots((prev) => (prev.length < 3 ? prev + '.' : ''))
+    }, 500)
+
+    return () => clearInterval(interval)
+  }, [isLoading])
 
   const handleSubmit = () => {
     if (!input.trim() || isLoading) return
@@ -31,6 +41,11 @@ export function Terminal() {
         {messages.map((message, i) => (
           <ChatMessage key={`${message.timestamp}-${i}`} message={message} />
         ))}
+        {isLoading && (
+          <div className="text-green-500 font-mono animate-pulse">
+            Analyzing{analyzingDots}
+          </div>
+        )}
         <div ref={terminalEndRef} />
       </div>
       <ChatInput
