@@ -80,7 +80,6 @@ export class APIService {
 
       const data = await response.json()
 
-      console.log(data)
       return {
         isAI: data.isAI,
         confidence: data.confidence,
