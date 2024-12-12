@@ -22,6 +22,16 @@ const INITIAL_MESSAGES: ChatMessage[] = [
     content: 'Ready for interaction. Type a message to begin.',
     timestamp: Date.now() + 2,
   },
+  {
+    type: 'output',
+    content: 'Run "detect-image {image_uri}" to analyze an image.',
+    timestamp: Date.now() + 3,
+  },
+  {
+    type: 'output',
+    content: 'Or upload an image using the button.',
+    timestamp: Date.now() + 4,
+  },
 ]
 
 export function useChat() {
