@@ -44,10 +44,13 @@ export function ChatInput({
       </div>
       <label
         htmlFor="image-input"
-        className="bg-green-500/10 border border-green-500/30 rounded p-2 hover:bg-green-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        className={`bg-green-500/10 border border-green-500/30 rounded p-2 hover:bg-green-500/20 transition-colors ${
+          isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+        }`}
       >
         <Image className="w-5 h-5 text-green-500" />
         <input
+          disabled={isLoading}
           id="image-input"
           type="file"
           accept="image/*"
@@ -55,6 +58,7 @@ export function ChatInput({
           className="hidden"
         />
       </label>
+
       <button
         type="submit"
         disabled={isLoading}
