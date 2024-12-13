@@ -66,9 +66,9 @@ export async function POST(request: Request) {
         .slice(0, 3)
         .map((p) => `${(p * 100).toFixed(2)}%`)
         .join(', ')}
-        (Probability scores from validators indicating the likelihood of AI generation.)
+        (Probability scores from miners indicating the likelihood of AI generation.)
       - Processed By Node (FQDN): ${detectionResults.fqdn}
-        (The node responsible for analyzing the image.)
+        (The validator node used to request image analysis from miners.)
     
       Response Expectations:
       - Provide a clear, professional summary of whether the image is AI-generated.
