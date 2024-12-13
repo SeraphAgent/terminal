@@ -24,13 +24,8 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   },
   {
     type: 'output',
-    content: 'Run "detect-image {image_uri}" to analyze an image.',
+    content: 'Upload an image to analyze it.',
     timestamp: Date.now() + 3,
-  },
-  {
-    type: 'output',
-    content: 'Or upload an image using the button.',
-    timestamp: Date.now() + 4,
   },
 ]
 
@@ -112,7 +107,7 @@ export function useChat() {
           ...prev.messages,
           {
             type: 'input',
-            content: `detect-image ${file.name}`,
+            content: `detect ${file.name}`,
             timestamp: Date.now(),
           },
         ],
