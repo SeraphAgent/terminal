@@ -1,6 +1,14 @@
 import { sealData, unsealData } from 'iron-session'
 import { NextRequest, NextResponse } from 'next/server'
 
+if (!process.env.SESSION_SECRET) {
+  throw new Error('SESSION_SECRET is required')
+}
+
+if (!process.env.COOKIE_NAME) {
+  throw new Error('COOKIE_NAME is required')
+}
+
 const SESSION_OPTIONS = {
   ttl: 60 * 60 * 24 * 30, // 30 days
   password: process.env.SESSION_SECRET!,
