@@ -46,13 +46,10 @@ export class APIService {
     }
   }
 
-  static async detectImage(image: string): Promise<{
-    isAI: boolean
-    confidence: number
-    similarity: number
-    fqdn: string
-    predictions: number[]
-  }> {
+  static async detectImage(
+    userAddress: string | undefined,
+    image: string
+  ): Promise<string> {
     if (!image) {
       throw new APIError('Base64 encoded image is required')
     }
@@ -64,6 +61,7 @@ export class APIService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          userAddress,
           image,
         }),
       })
@@ -80,12 +78,12 @@ export class APIService {
 
       const data = await response.json()
 
-      return {
-        isAI: data.isAI,
-        confidence: data.confidence,
-        similarity: data.similarity,
-        fqdn: data.fqdn,
-        predictions: data.predictions,
+      if (data.response) {
+        return data.response
+      } else if (data.text) {
+        return data.text
+      } else {
+        throw new APIError('Invalid response format from API')
       }
     } catch (error) {
       console.error('Detect Image error:', error)
