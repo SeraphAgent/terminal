@@ -8,7 +8,7 @@ import { Search, SortAsc, SortDesc } from "lucide-react";
 interface Agent {
   id: string;
   name: string;
-  status: string;
+  status: 'active' | 'training' | 'inactive' | 'error';
   trust_score: number;
   ai_score: number;
   type: string;

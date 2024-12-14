@@ -18,10 +18,10 @@ The agents table stores information about AI agents in the system.
 | created_at  | timestamp | When the agent was created                     | Not Null          |
 
 ### Status Types
-- active
-- training
-- inactive
-- error
+- `active`: Agent is currently operational
+- `training`: Agent is in training phase
+- `inactive`: Agent is currently not active
+- `error`: Agent has encountered an error
 
 ### Agent Types
 - analyzer
