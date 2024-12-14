@@ -31,9 +31,10 @@ export default function Analysis() {
         setLoading(true);
         const response = await fetch(`/api/agents?search=${searchTerm}`);
         const data = await response.json();
-        setAgents(data);
+        setAgents(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching agents:", error);
+        setAgents([]);
       } finally {
         setLoading(false);
       }
@@ -43,12 +44,14 @@ export default function Analysis() {
     return () => clearTimeout(debounceTimer);
   }, [searchTerm]);
 
-  const sortedAgents = [...agents].sort((a, b) => {
-    if (sortConfig.direction === "asc") {
-      return a[sortConfig.key] > b[sortConfig.key] ? 1 : -1;
-    }
-    return a[sortConfig.key] < b[sortConfig.key] ? 1 : -1;
-  });
+  const sortedAgents = agents.length > 0 
+    ? [...agents].sort((a, b) => {
+        if (sortConfig.direction === "asc") {
+          return a[sortConfig.key] > b[sortConfig.key] ? 1 : -1;
+        }
+        return a[sortConfig.key] < b[sortConfig.key] ? 1 : -1;
+      })
+    : [];
 
   const handleSort = (key: keyof Agent) => {
     setSortConfig((current) => ({
