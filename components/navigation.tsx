@@ -2,11 +2,12 @@
 
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
-import { BarChart2, FileText, Terminal, ExternalLink } from "lucide-react";
+import { BarChart2, FileText, Terminal, ExternalLink, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ConnectButton } from "./web3/ConnectButton";
 import { Button } from "./ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -41,12 +42,38 @@ export function Navigation() {
             ))}
           </div>
           <div className="flex items-center gap-6">
-            <Button asChild className="font-mono bg-green-500/10 border border-green-500/30 text-green-500 hover:bg-green-500/20">
-              <a href="https://app.virtuals.io/virtuals/12398" target="_blank" rel="noopener noreferrer" className="flex items-center">
-                <span>Buy $SERAPH</span>
-                <ExternalLink className="ml-2 h-4 w-4" />
-              </a>
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="font-mono bg-green-500/10 border border-green-500/30 text-green-500 hover:bg-green-500/20">
+                  <span>Buy $SERAPH</span>
+                  <ChevronDown className="ml-2 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[200px] bg-black border border-green-500/30 text-green-500">
+                <DropdownMenuItem asChild className="focus:bg-green-500/10 focus:text-green-400 cursor-pointer">
+                  <a
+                    href="https://app.virtuals.io/virtuals/12398"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between"
+                  >
+                    <span>Virtuals</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="focus:bg-green-500/10 focus:text-green-400 cursor-pointer">
+                  <a
+                    href="https://kyberswap.com/swap/base/usdc-to-0x4f81837c2f4a189a0b69370027cc2627d93785b4"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between"
+                  >
+                    <span>KyberSwap</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <ConnectButton />
           </div>
         </div>
