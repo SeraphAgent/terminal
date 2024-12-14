@@ -20,7 +20,7 @@ export function useAuth() {
   });
   const balance = rawBalance ? BigInt(rawBalance.toString()) : BigInt(0);
 
-  const isAuth = isConnected && isSignedIn && balance > BigInt(1000000000000000000);
+  const isAuth = isConnected && isSignedIn && balance > BigInt(10);
 
   useEffect(() => {
     // Only redirect if not on home page and not connected
