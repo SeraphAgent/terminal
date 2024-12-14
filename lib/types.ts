@@ -7,3 +7,9 @@ export interface AIAgent {
   lastUpdate: string;
   type: 'validator' | 'miner';
 }
+
+export type StatusType = 'active' | 'training' | 'inactive' | 'error';
+
+export function isValidStatus(status: string): status is StatusType {
+  return ['active', 'training', 'inactive', 'error'].includes(status as StatusType);
+}

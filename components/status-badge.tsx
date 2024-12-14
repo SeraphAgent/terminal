@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
-
-type StatusType = 'active' | 'training' | 'inactive' | 'error';
+import { StatusType } from "@/lib/types";
 
 interface StatusBadgeProps {
   status: StatusType;

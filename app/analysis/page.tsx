@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { StatusBadge } from "@/components/status-badge";
 import { TrustScore } from "@/components/trust-score";
 import { Search, SortAsc, SortDesc } from "lucide-react";
+import { StatusType, isValidStatus } from "@/lib/types";
 
 interface Agent {
   id: string;
   name: string;
-  status: 'active' | 'training' | 'inactive' | 'error';
+  status: string;
   trust_score: number;
   ai_score: number;
   type: string;
@@ -105,7 +106,9 @@ export default function Analysis() {
                   <tr key={agent.id} className="border-b border-green-500/10 hover:bg-green-500/5 transition-colors">
                     <td className="px-6 py-4 font-mono text-green-400">{agent.name}</td>
                     <td className="px-6 py-4">
-                      <StatusBadge status={agent.status} />
+                      <StatusBadge 
+                        status={isValidStatus(agent.status) ? agent.status : 'inactive'} 
+                      />
                     </td>
                     <td className="px-6 py-4">
                       <TrustScore score={agent.trust_score} />
