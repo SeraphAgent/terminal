@@ -1,33 +1,33 @@
-"use client";
+'use client'
 
-import { seraphContractConfig } from "@/constants/contract-config";
-import { useSIWE } from "connectkit";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useAccount, useReadContract } from "wagmi";
+import { seraphContractConfig } from '@/constants/contract-config'
+import { useSIWE } from 'connectkit'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useAccount, useReadContract } from 'wagmi'
 
 export function useAuth() {
-  const router = useRouter();
-  const pathname = usePathname();
+  const router = useRouter()
+  const pathname = usePathname()
 
-  const { isConnected, address } = useAccount();
-  const { isSignedIn } = useSIWE();
+  const { isConnected, address } = useAccount()
+  const { isSignedIn } = useSIWE()
 
   const { data: rawBalance } = useReadContract({
     ...seraphContractConfig,
-    functionName: "balanceOf",
+    functionName: 'balanceOf',
     args: [address],
-  });
-  const balance = rawBalance ? BigInt(rawBalance.toString()) : BigInt(0);
+  })
+  const balance = rawBalance ? BigInt(rawBalance.toString()) : BigInt(0)
 
-  const isAuth = isConnected && isSignedIn && balance > BigInt(10);
+  const isAuth = isConnected && isSignedIn && balance > BigInt(100 * 1e18)
 
   useEffect(() => {
     // Only redirect if not on home page and not connected
-    if (!isAuth && pathname !== "/") {
-      router.push("/");
+    if (!isAuth && pathname !== '/') {
+      router.push('/')
     }
-  }, [isConnected, pathname, router]);
+  }, [isConnected, pathname, router])
 
-  return { isConnected, isSignedIn, isAuth, address, balance };
+  return { isConnected, isSignedIn, isAuth, address, balance }
 }

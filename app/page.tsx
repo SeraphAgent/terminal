@@ -32,7 +32,8 @@ export default function Home() {
           {isConnected && isSignedIn && balance > BigInt(0) && <Terminal />}
           {isConnected && isSignedIn && balance <= BigInt(0) && (
             <div className="text-center text-green-500 font-mono mt-8">
-              You need to be a $SERAPH holder to access the terminal.
+              You need to have at least 100 $SERAPH tokens in your wallet to
+              access the terminal.
             </div>
           )}
           {isConnected && !isSignedIn && (
