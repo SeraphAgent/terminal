@@ -24,11 +24,11 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.BITMIND_API_KEY}`,
+        Authorization: `Bearer ${process.env.BITMIND_API_KEY}`
       },
       body: JSON.stringify({
-        image: image,
-      }),
+        image: image
+      })
     }
 
     const detectImageResponse = await fetch(
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
       console.error('Detect Image API Error:', {
         status: detectImageResponse.status,
         statusText: detectImageResponse.statusText,
-        body: errorText,
+        body: errorText
       })
       return Response.json(
         { error: `Failed to detect image: ${detectImageResponse.statusText}` },
@@ -80,14 +80,14 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-KEY': VIRTUALS_CONFIG.API_KEY,
+        'X-API-KEY': VIRTUALS_CONFIG.API_KEY
       },
       body: JSON.stringify({
         data: {
           userUid: userAddress,
-          virtualUid: VIRTUALS_CONFIG.VIRTUAL_UID,
-        },
-      }),
+          virtualUid: VIRTUALS_CONFIG.VIRTUAL_UID
+        }
+      })
     }
 
     const tokenResponse = await fetch(
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
     if (!tokenResponse.ok) {
       console.error('Token Error:', {
         status: tokenResponse.status,
-        statusText: tokenResponse.statusText,
+        statusText: tokenResponse.statusText
       })
       return Response.json(
         { error: 'Failed to get access token' },
@@ -130,16 +130,16 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`
       },
       body: JSON.stringify({
         data: {
           useCaseId: 'roleplay',
           text: message,
           opponent: userAddress,
-          additionalContext,
-        },
-      }),
+          additionalContext
+        }
+      })
     }
 
     const messageResponse = await fetch(
@@ -152,7 +152,7 @@ export async function POST(request: Request) {
       console.error('Virtuals API Error:', {
         status: messageResponse.status,
         statusText: messageResponse.statusText,
-        body: errorText,
+        body: errorText
       })
       return Response.json(
         { error: `Failed to send message: ${messageResponse.statusText}` },

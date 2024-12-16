@@ -24,7 +24,7 @@ const siweConfig = {
       version: '1',
       uri: window.location.origin,
       domain: window.location.host,
-      statement: 'Sign In With Ethereum to prove you control this wallet.',
+      statement: 'Sign In With Ethereum to prove you control this wallet.'
     }).prepareMessage()
   },
 
@@ -32,7 +32,7 @@ const siweConfig = {
     return fetch(siwePath, {
       method: 'POST',
       body: JSON.stringify({ message, signature }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' }
     }).then((res) => res.ok)
   },
 
@@ -44,7 +44,7 @@ const siweConfig = {
     return address && chainId ? { address, chainId } : null
   },
 
-  signOut: () => fetch(siwePath, { method: 'DELETE' }).then((res) => res.ok),
+  signOut: () => fetch(siwePath, { method: 'DELETE' }).then((res) => res.ok)
 } satisfies SIWEConfig
 
 export function Providers(props: {

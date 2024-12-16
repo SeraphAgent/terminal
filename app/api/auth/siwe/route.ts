@@ -24,7 +24,7 @@ export const POST = async (req: NextRequest) => {
     const siweMessage = new SiweMessage(message)
     const { data: fields } = await siweMessage.verify({
       signature,
-      nonce: session.nonce,
+      nonce: session.nonce
     })
 
     if (fields.nonce !== session.nonce) {

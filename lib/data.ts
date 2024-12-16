@@ -1,4 +1,4 @@
-import { AIAgent } from './types';
+import { AIAgent } from './types'
 
 export const aiAgents: AIAgent[] = [
   {
@@ -82,4 +82,4 @@ export const aiAgents: AIAgent[] = [
     lastUpdate: '2024-03-21T15:24:00Z',
     type: 'validator'
   }
-];
+]
