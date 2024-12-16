@@ -1,17 +1,37 @@
-'use client'
+import { createClient } from '@supabase/supabase-js'
+import { AnalysisClient } from './client'
 
-import { BlurredTable } from '@/components/blurred-table'
+async function getAgents() {
+  try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_ANON_KEY!,
+      {
+        auth: {
+          persistSession: false,
+        },
+      }
+    )
 
-export default function Analysis() {
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-mono font-bold text-green-500">
-          Neural Analysis
-        </h1>
-      </div>
+    const { data, error } = await supabase
+      .from('agents')
+      .select('*')
+      .order('created_at', { ascending: false })
 
-      <BlurredTable />
-    </div>
-  )
+    if (error) {
+      console.error('Supabase error:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Unexpected error in getAgents:', error)
+    return []
+  }
+}
+
+export default async function Analysis() {
+  const initialAgents = await getAgents()
+
+  return <AnalysisClient initialAgents={initialAgents} />
 }
