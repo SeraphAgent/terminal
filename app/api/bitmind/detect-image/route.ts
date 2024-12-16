@@ -6,8 +6,6 @@ export interface DetectImageResponse {
   fqdn: string
 }
 
-export const runtime = 'edge'
-
 import { VIRTUALS_CONFIG } from '@/lib/chat/config'
 import { AccessTokenResponse, ConversationResponse } from '@/lib/chat/types'
 

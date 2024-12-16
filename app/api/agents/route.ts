@@ -1,8 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 
-export const runtime = 'edge'
-
 export async function GET(request: Request) {
   try {
     const supabase = createClient(
@@ -15,8 +13,6 @@ export async function GET(request: Request) {
       }
     )
 
-    console.log('Supabase client created')
-
     const { searchParams } = new URL(request.url)
     const searchTerm = searchParams.get('search') || ''
 
@@ -27,8 +23,6 @@ export async function GET(request: Request) {
     }
 
     const { data, error } = await query
-
-    console.log('Query data:', data)
 
     if (error) throw error
 
