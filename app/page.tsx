@@ -20,29 +20,29 @@ export default function Home() {
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <div className="relative z-10 max-w-7xl mx-auto px-4 py-8">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-8">
           <header className="mb-8 text-center">
-            <h1 className="text-4xl font-mono font-bold mb-2 glitch-text">
+            <h1 className="glitch-text mb-2 font-mono text-4xl font-bold">
               SERAPH TERMINAL
             </h1>
-            <p className="text-green-400 font-mono">
+            <p className="font-mono text-green-400">
               Neural Consensus Interface v0.0.7
             </p>
           </header>
           {isConnected && isSignedIn && balance > BigInt(0) && <Terminal />}
           {isConnected && isSignedIn && balance <= BigInt(0) && (
-            <div className="text-center text-green-500 font-mono mt-8">
+            <div className="mt-8 text-center font-mono text-green-500">
               You need to have at least 100 $SERAPH tokens in your wallet to
               access the terminal.
             </div>
           )}
           {isConnected && !isSignedIn && (
-            <div className="text-center text-green-500 font-mono mt-8">
+            <div className="mt-8 text-center font-mono text-green-500">
               Please sign in with your wallet to access the terminal.
             </div>
           )}
           {!isConnected && (
-            <div className="text-center text-green-500 font-mono mt-8">
+            <div className="mt-8 text-center font-mono text-green-500">
               Please connect your wallet to access the terminal.
             </div>
           )}

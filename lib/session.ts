@@ -11,7 +11,7 @@ if (!process.env.COOKIE_NAME) {
 
 const SESSION_OPTIONS = {
   ttl: 60 * 60 * 24 * 30, // 30 days
-  password: process.env.SESSION_SECRET!,
+  password: process.env.SESSION_SECRET!
 }
 
 export type ISession = {
@@ -58,7 +58,7 @@ class Session {
       await sealData(this.toJSON(), SESSION_OPTIONS),
       {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: process.env.NODE_ENV === 'production'
       }
     )
   }

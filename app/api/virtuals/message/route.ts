@@ -16,14 +16,14 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-KEY': VIRTUALS_CONFIG.API_KEY,
+        'X-API-KEY': VIRTUALS_CONFIG.API_KEY
       },
       body: JSON.stringify({
         data: {
           userUid: userAddress,
-          virtualUid: VIRTUALS_CONFIG.VIRTUAL_UID,
-        },
-      }),
+          virtualUid: VIRTUALS_CONFIG.VIRTUAL_UID
+        }
+      })
     }
 
     const tokenResponse = await fetch(
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     if (!tokenResponse.ok) {
       console.error('Token Error:', {
         status: tokenResponse.status,
-        statusText: tokenResponse.statusText,
+        statusText: tokenResponse.statusText
       })
       return Response.json(
         { error: 'Failed to get access token' },
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`
       },
       body: JSON.stringify({
         data: {
@@ -57,9 +57,9 @@ export async function POST(request: Request) {
           text: message,
           opponent: userAddress,
           additionalContext:
-            'Seraph is a decentralized neural consensus system.',
-        },
-      }),
+            'Seraph is a decentralized neural consensus system.'
+        }
+      })
     }
 
     const messageResponse = await fetch(
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
       console.error('Virtuals API Error:', {
         status: messageResponse.status,
         statusText: messageResponse.statusText,
-        body: errorText,
+        body: errorText
       })
       return Response.json(
         { error: `Failed to send message: ${messageResponse.statusText}` },

@@ -10,30 +10,30 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   {
     type: 'output',
     content: 'Initializing Seraph Neural Interface...',
-    timestamp: Date.now(),
+    timestamp: Date.now()
   },
   {
     type: 'output',
     content: 'Connected to Virtuals Protocol.',
-    timestamp: Date.now() + 1,
+    timestamp: Date.now() + 1
   },
   {
     type: 'output',
     content: 'Ready for interaction. Type a message to begin.',
-    timestamp: Date.now() + 2,
+    timestamp: Date.now() + 2
   },
   {
     type: 'output',
     content: 'Upload an image to analyze it.',
-    timestamp: Date.now() + 3,
-  },
+    timestamp: Date.now() + 3
+  }
 ]
 
 export function useChat() {
   const [state, setState] = useState<ChatState>({
     messages: INITIAL_MESSAGES,
     isLoading: false,
-    error: null,
+    error: null
   })
 
   const { address } = useAccount()
@@ -49,11 +49,11 @@ export function useChat() {
           {
             type: 'input',
             content: message,
-            timestamp: Date.now(),
-          },
+            timestamp: Date.now()
+          }
         ],
         isLoading: true,
-        error: null,
+        error: null
       }))
 
       try {
@@ -67,10 +67,10 @@ export function useChat() {
             {
               type: 'output',
               content: cleanedResponse,
-              timestamp: Date.now(),
-            },
+              timestamp: Date.now()
+            }
           ],
-          isLoading: false,
+          isLoading: false
         }))
       } catch (error) {
         console.error('Chat error:', error)
@@ -86,11 +86,11 @@ export function useChat() {
             {
               type: 'output',
               content: `Error: ${errorMessage}. Please try again.`,
-              timestamp: Date.now(),
-            },
+              timestamp: Date.now()
+            }
           ],
           isLoading: false,
-          error: errorMessage,
+          error: errorMessage
         }))
       }
     },
@@ -108,11 +108,11 @@ export function useChat() {
           {
             type: 'input',
             content: `detect ${file.name}`,
-            timestamp: Date.now(),
-          },
+            timestamp: Date.now()
+          }
         ],
         isLoading: true,
-        error: null,
+        error: null
       }))
 
       try {
@@ -127,10 +127,10 @@ export function useChat() {
             {
               type: 'output',
               content: cleanedResponse,
-              timestamp: Date.now(),
-            },
+              timestamp: Date.now()
+            }
           ],
-          isLoading: false,
+          isLoading: false
         }))
       } catch (error) {
         console.error('Image upload error:', error)
@@ -146,11 +146,11 @@ export function useChat() {
             {
               type: 'output',
               content: `Error: ${errorMessage}. Please try again.`,
-              timestamp: Date.now(),
-            },
+              timestamp: Date.now()
+            }
           ],
           isLoading: false,
-          error: errorMessage,
+          error: errorMessage
         }))
       }
     },
@@ -162,6 +162,6 @@ export function useChat() {
     isLoading: state.isLoading,
     error: state.error,
     sendMessage,
-    sendImage,
+    sendImage
   }
 }

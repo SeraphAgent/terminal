@@ -13,12 +13,12 @@ export class APIService {
       const response = await fetch('/api/virtuals/message', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           userAddress,
-          message,
-        }),
+          message
+        })
       })
 
       if (!response.ok) {
@@ -26,7 +26,7 @@ export class APIService {
         console.error('API Error:', {
           status: response.status,
           statusText: response.statusText,
-          body: errorText,
+          body: errorText
         })
         throw new APIError(`Failed to send message: ${response.statusText}`)
       }
@@ -58,12 +58,12 @@ export class APIService {
       const response = await fetch('/api/bitmind/detect-image', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           userAddress,
-          image,
-        }),
+          image
+        })
       })
 
       if (!response.ok) {
@@ -71,7 +71,7 @@ export class APIService {
         console.error('Detect Image API Error:', {
           status: response.status,
           statusText: response.statusText,
-          body: errorText,
+          body: errorText
         })
         throw new APIError(`Failed to detect image: ${response.statusText}`)
       }

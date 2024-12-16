@@ -17,17 +17,17 @@ export async function POST(request: Request) {
     const requestBody = {
       data: {
         userUid: userAddress,
-        virtualUid: VIRTUALS_CONFIG.VIRTUAL_UID,
-      },
+        virtualUid: VIRTUALS_CONFIG.VIRTUAL_UID
+      }
     }
 
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-KEY': VIRTUALS_CONFIG.API_KEY,
+        'X-API-KEY': VIRTUALS_CONFIG.API_KEY
       },
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify(requestBody)
     })
 
     if (!response.ok) {

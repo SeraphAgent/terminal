@@ -16,7 +16,7 @@ export function useAuth() {
   const { data: rawBalance } = useReadContract({
     ...seraphContractConfig,
     functionName: 'balanceOf',
-    args: [address],
+    args: [address]
   })
   const balance = rawBalance ? BigInt(rawBalance.toString()) : BigInt(0)
 

@@ -8,13 +8,13 @@ export function getConfig() {
     connectors: [
       walletConnect({
         projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID!,
-        showQrModal: false,
-      }),
+        showQrModal: false
+      })
     ],
     ssr: false,
     transports: {
-      [base.id]: http(),
-    },
+      [base.id]: http()
+    }
   })
 }
 
