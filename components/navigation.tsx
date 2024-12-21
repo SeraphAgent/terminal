@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import {
   BarChart2,
   ChevronDown,
+  Coins,
   ExternalLink,
   FileText,
   Menu,
@@ -32,6 +33,7 @@ export function Navigation() {
     : [
         { href: '/', label: 'Home', icon: Terminal },
         { href: '/analysis', label: 'Analysis', icon: BarChart2 },
+        { href: '/stake', label: 'Stake', icon: Coins },
         { href: '/docs', label: 'Docs', icon: FileText }
       ]
 
@@ -66,7 +68,7 @@ export function Navigation() {
             ))}
           </div>
           <div className="flex items-center gap-6">
-            <div className="group relative">
+            <div className="group relative hidden lg:flex">
               <Button
                 disabled
                 className="border border-green-500/30 bg-green-500/10 font-mono text-green-500 hover:bg-green-500/20"
