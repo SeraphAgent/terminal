@@ -9,6 +9,8 @@ export interface DetectImageResponse {
 import { VIRTUALS_CONFIG } from '@/lib/chat/config'
 import { AccessTokenResponse, ConversationResponse } from '@/lib/chat/types'
 
+export const maxDuration = 25;
+
 export async function POST(request: Request) {
   try {
     const { image, userAddress } = await request.json()
