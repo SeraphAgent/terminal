@@ -5,13 +5,13 @@ import { useAuth } from '@/hooks/use-auth'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
-  const [isLoaded, setIsLoaded] = useState(false)
+  const { isConnected, isSignedIn, balance } = useAuth()
+
+  const [isLoaded, setIsLoaded] = useState(isSignedIn || false)
 
   useEffect(() => {
     setTimeout(() => setIsLoaded(true), 1000)
   }, [])
-
-  const { isConnected, isSignedIn, balance } = useAuth()
 
   return (
     <main className="relative">
