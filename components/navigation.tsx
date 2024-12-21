@@ -68,7 +68,7 @@ export function Navigation() {
             ))}
           </div>
           <div className="flex items-center gap-6">
-            <div className="group relative hidden lg:flex">
+            <div className="group relative hidden lg:block">
               <Button
                 disabled
                 className="border border-green-500/30 bg-green-500/10 font-mono text-green-500 hover:bg-green-500/20"

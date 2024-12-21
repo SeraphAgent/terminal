@@ -1,40 +1,40 @@
-import { DigitalRain } from "@/components/digital-rain";
-import { Navigation } from "@/components/navigation";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { Providers } from "./providers";
-import { Analytics } from "@vercel/analytics/react";
+import { DigitalRain } from '@/components/digital-rain'
+import { Navigation } from '@/components/navigation'
+import { Analytics } from '@vercel/analytics/react'
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { Providers } from './providers'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Seraph Terminal",
-  description: "Neural Consensus Interface",
+  title: 'Seraph Terminal',
+  description: 'Neural Consensus Interface',
   icons: {
     icon: [
       {
-        rel: "icon",
-        type: "image/png",
-        url: "/favicon-96x96.png",
-        sizes: "96x96",
+        rel: 'icon',
+        type: 'image/png',
+        url: '/favicon-96x96.png',
+        sizes: '96x96'
       },
-      { rel: "icon", type: "image/svg+xml", url: "/favicon.svg" },
+      { rel: 'icon', type: 'image/svg+xml', url: '/favicon.svg' }
     ],
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png'
   },
-  manifest: "/site.webmanifest",
-};
+  manifest: '/site.webmanifest'
+}
 
 export default function RootLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-black min-h-screen`}>
+      <body className={`${inter.className} min-h-screen bg-black`}>
         <Providers>
           <DigitalRain />
           <div className="relative z-10">
@@ -45,5 +45,5 @@ export default function RootLayout({
         <Analytics />
       </body>
     </html>
-  );
+  )
 }
