@@ -27,7 +27,7 @@ export default function Staking() {
             <div>
               <p className="font-mono leading-relaxed text-green-400">
                 Learn more about staking mechanisms and Seraph&apos;s future
-                ecosystem by exploring staking contracts repo:
+                ecosystem:
               </p>
               <a
                 href="https://github.com/SeraphAgent/seraph-staking-contracts"
