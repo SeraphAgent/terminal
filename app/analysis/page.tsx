@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import { AnalysisClient } from './client'
 
+export const dynamic = 'force-dynamic'
+
 async function getAgents() {
   try {
     const supabase = createClient(
@@ -8,8 +10,8 @@ async function getAgents() {
       process.env.SUPABASE_ANON_KEY!,
       {
         auth: {
-          persistSession: false,
-        },
+          persistSession: false
+        }
       }
     )
 
