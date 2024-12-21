@@ -4,15 +4,15 @@ import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
 import {
   BarChart2,
-  FileText,
-  Terminal,
-  ExternalLink,
   ChevronDown,
-  Menu
+  ExternalLink,
+  FileText,
+  Menu,
+  Terminal
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ConnectButton } from './web3/ConnectButton'
+import { useState } from 'react'
 import { Button } from './ui/button'
 import {
   DropdownMenu,
@@ -20,7 +20,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from './ui/dropdown-menu'
-import { useState } from 'react'
+import { ConnectButton } from './web3/ConnectButton'
 
 export function Navigation() {
   const pathname = usePathname()
@@ -97,12 +97,26 @@ export function Navigation() {
                   className="cursor-pointer focus:bg-green-500/10 focus:text-green-400"
                 >
                   <a
-                    href="https://kyberswap.com/swap/base/usdc-to-0x4f81837c2f4a189a0b69370027cc2627d93785b4"
+                    href="https://kyberswap.com/swap/base/eth-to-0x4f81837c2f4a189a0b69370027cc2627d93785b4"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between"
                   >
                     <span>KyberSwap</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  asChild
+                  className="cursor-pointer focus:bg-green-500/10 focus:text-green-400"
+                >
+                  <a
+                    href="https://www.okx.com/web3/dex-swap?inputChain=8453&inputCurrency=0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b&outputChain=8453&outputCurrency=0x4f81837c2f4a189a0b69370027cc2627d93785b4"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between"
+                  >
+                    <span>OKX</span>
                     <ExternalLink className="h-4 w-4" />
                   </a>
                 </DropdownMenuItem>
