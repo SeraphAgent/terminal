@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { AnalysisClient } from './client'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 120
 
 async function getAgents() {
   try {
