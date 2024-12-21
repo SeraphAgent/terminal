@@ -77,7 +77,6 @@ export function Navigation() {
                 Coming soon
               </div>
             </div>
-
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="border border-green-500/30 bg-green-500/10 font-mono text-green-500 hover:bg-green-500/20">
