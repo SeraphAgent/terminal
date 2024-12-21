@@ -14,7 +14,7 @@ export default function Staking() {
             Coming Soon
           </h2>
           <p className="text-center font-mono leading-relaxed text-green-400">
-            Staking functionality is under development. Stay tuned for updates!
+            Something amazing is cooking. Stay tuned for more updates!
           </p>
         </div>
 
@@ -26,8 +26,8 @@ export default function Staking() {
           <div className="space-y-4">
             <div>
               <p className="font-mono leading-relaxed text-green-400">
-                Learn more about staking mechanisms and its integration with
-                Seraph&apos;s ecosystem by exploring our resources:
+                Learn more about staking mechanisms and Seraph&apos;s future
+                ecosystem by exploring staking contracts repo:
               </p>
               <a
                 href="https://github.com/SeraphAgent/seraph-staking-contracts"
