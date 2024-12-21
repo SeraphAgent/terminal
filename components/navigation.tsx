@@ -65,8 +65,19 @@ export function Navigation() {
               </Link>
             ))}
           </div>
-
           <div className="flex items-center gap-6">
+            <div className="group relative">
+              <Button
+                disabled
+                className="border border-green-500/30 bg-green-500/10 font-mono text-green-500 hover:bg-green-500/20"
+              >
+                Stake $SERAPH
+              </Button>
+              <div className="absolute left-1/2 mt-2 hidden -translate-x-1/2 transform items-center justify-center whitespace-nowrap rounded-md border border-green-500/30 bg-green-900/90 px-3 py-1 font-mono text-xs text-green-400 shadow-md group-hover:flex">
+                Coming soon
+              </div>
+            </div>
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="border border-green-500/30 bg-green-500/10 font-mono text-green-500 hover:bg-green-500/20">
