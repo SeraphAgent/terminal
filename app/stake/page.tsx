@@ -7,7 +7,7 @@ import {
   seraphContractConfig,
   seraphStakingConfig
 } from '@/constants/contract-config'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAccount, useReadContract } from 'wagmi'
 
 export default function Staking() {
@@ -81,9 +81,25 @@ export default function Staking() {
     setStakeAmount(parsedValue >= 0 ? parsedValue : 0)
   }
 
-  // Calculate time left for unlock
-  const currentTime = Math.floor(Date.now() / 1000)
-  const timeLeft = lockEndTime > currentTime ? lockEndTime - currentTime : 0
+  // State to track time left
+  const [timeLeft, setTimeLeft] = useState<number>(0)
+
+  // Calculate the time left
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const currentTime = Math.floor(Date.now() / 1000)
+      setTimeLeft(lockEndTime > currentTime ? lockEndTime - currentTime : 0)
+    }
+
+    // Initial calculation
+    calculateTimeLeft()
+
+    // Update every minute
+    const interval = setInterval(calculateTimeLeft, 30000)
+
+    // Cleanup on unmount
+    return () => clearInterval(interval)
+  }, [lockEndTime])
 
   // Format the time left into a human-readable format
   const formatTimeLeft = (seconds: number) => {
