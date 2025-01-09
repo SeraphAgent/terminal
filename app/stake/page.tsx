@@ -5,7 +5,8 @@ import { StakeButton } from '@/components/web3/StakeButton'
 import { UnstakeButton } from '@/components/web3/UnstakeButton'
 import {
   seraphContractConfig,
-  seraphStakingConfig
+  seraphStakingConfig,
+  tensorPlexStakedTaoConfig
 } from '@/constants/contract-config'
 import { useEffect, useState } from 'react'
 import { useAccount, useReadContract } from 'wagmi'
@@ -52,7 +53,7 @@ export default function Staking() {
   const { data: rawTaoRewards } = useReadContract({
     ...seraphStakingConfig,
     functionName: 'calculateRewardsEarned',
-    args: [address, '0x806041b6473da60abbe1b256d9a2749a151be6c6'],
+    args: [address, tensorPlexStakedTaoConfig.address],
     query: {
       refetchInterval: 3000
     }
