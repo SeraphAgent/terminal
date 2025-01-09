@@ -1,6 +1,6 @@
 import { seraphStakingConfig } from '@/constants/contract-config'
 import { useState } from 'react'
-import { useWriteContract } from 'wagmi'
+import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
 
 export function UnstakeButton({
   amount,
@@ -9,7 +9,11 @@ export function UnstakeButton({
   amount: number
   timeLeft: number
 }) {
-  const { writeContract, isPending } = useWriteContract()
+  const { data: hash, writeContract, isPending } = useWriteContract()
+
+  const { isLoading: isConfirming } = useWaitForTransactionReceipt({
+    hash
+  })
 
   const [error, setError] = useState<string | null>(null)
 
@@ -33,14 +37,20 @@ export function UnstakeButton({
     }
   }
 
+  const isLoading = isPending || isConfirming
+
   return (
     <div>
       <button
         onClick={handleUnstake}
-        disabled={isPending || amount === 0 || timeLeft > 0}
+        disabled={isLoading || amount === 0 || timeLeft > 0}
         className="w-full rounded-lg border border-green-500 bg-green-500/20 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300 disabled:opacity-50"
       >
-        {isPending ? 'Unstaking...' : 'Unstake'}
+        {isPending ? (
+          <span className="animate-pulse">Unstaking...</span>
+        ) : (
+          'Unstake'
+        )}
       </button>
       {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
     </div>

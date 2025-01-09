@@ -13,10 +13,9 @@ import {
 export function StakeButton({ amount }: { amount: number }) {
   const { data: hash, writeContract, isPending } = useWriteContract()
 
-  const { isLoading: isConfirming, isSuccess: isConfirmed } =
-    useWaitForTransactionReceipt({
-      hash
-    })
+  const { isLoading: isConfirming } = useWaitForTransactionReceipt({
+    hash
+  })
 
   const { address } = useAccount()
 
@@ -68,11 +67,13 @@ export function StakeButton({ amount }: { amount: number }) {
 
   const isLoading = isPending || isConfirming
 
-  const buttonText = isLoading
-    ? 'Processing...'
-    : requiresApproval
-      ? 'Approve'
-      : 'Stake'
+  const buttonText = isLoading ? (
+    <span className="animate-pulse">Processing...</span>
+  ) : requiresApproval ? (
+    'Approve'
+  ) : (
+    'Stake'
+  )
 
   const handleClick = async () => {
     if (requiresApproval) {

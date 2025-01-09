@@ -35,16 +35,29 @@ export default function Staking() {
   })
   const stakedTokens = rawStaked ? Math.floor(Number(rawStaked) / 1e18) : 0
 
-  // Fetch the rewards
-  const { data: rawRewards } = useReadContract({
+  // Fetch rewards in SERAPH
+  const { data: rawSeraphRewards } = useReadContract({
     ...seraphStakingConfig,
     functionName: 'calculateRewardsEarned',
-    args: [address, '0x4f81837C2f4A189A0B69370027cc2627d93785B4'],
+    args: [address, seraphContractConfig.address],
     query: {
       refetchInterval: 3000
     }
   })
-  const rewards = rawRewards ? Math.floor(Number(rawRewards) / 1e18) : 0
+  const seraphRewards = rawSeraphRewards
+    ? Math.floor(Number(rawSeraphRewards) / 1e18)
+    : 0
+
+  // Fetch rewards in stTAO
+  const { data: rawTaoRewards } = useReadContract({
+    ...seraphStakingConfig,
+    functionName: 'calculateRewardsEarned',
+    args: [address, '0x806041b6473da60abbe1b256d9a2749a151be6c6'],
+    query: {
+      refetchInterval: 3000
+    }
+  })
+  const taoRewards = rawTaoRewards ? Number(rawTaoRewards) / 1e9 : 0
 
   // Fetch lock end time
   const { data: rawLockEndTime } = useReadContract({
@@ -95,9 +108,13 @@ export default function Staking() {
         <div className="flex-1 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
           <h2 className="mb-4 text-xl font-bold text-green-400">Rewards</h2>
           <p className="mb-4 text-2xl font-bold text-green-300">
-            {rewards} stTAO
+            {seraphRewards} SERAPH
           </p>
-          <ClaimButton />
+          <p className="mb-4 text-2xl font-bold text-green-300">
+            {taoRewards} stTAO
+          </p>
+
+          <ClaimButton availableAmountToClaim={taoRewards} />
         </div>
       </div>
 
