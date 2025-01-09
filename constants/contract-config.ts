@@ -7,7 +7,7 @@ export const seraphContractConfig = {
 } as const
 
 export const seraphStakingConfig = {
-  address: '0xC4C1877971eAf71fac5A5826B0d103656109d67D',
+  address: '0xd4F3aa15cFC819846Fc7a001c240eb9ea00f0108',
   abi: seraphStakingAbi
 } as const
 
