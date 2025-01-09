@@ -11,9 +11,9 @@ export function useAuth() {
   const pathname = usePathname()
 
   const { isConnected, isConnecting, address } = useAccount()
-  const { isSignedIn } = useSIWE()
+  const { isSignedIn, isLoading: isSigningIn } = useSIWE()
 
-  const { data: rawBalance } = useReadContract({
+  const { data: rawBalance, isLoading: isBalanceLoading } = useReadContract({
     ...seraphContractConfig,
     functionName: 'balanceOf',
     args: [address]
@@ -24,7 +24,13 @@ export function useAuth() {
 
   useEffect(() => {
     // Only redirect if not on home page and not connected
-    if (!isConnecting && !isAuth && pathname !== '/') {
+    if (
+      !isConnecting &&
+      !isBalanceLoading &&
+      !isSigningIn &&
+      !isAuth &&
+      pathname !== '/'
+    ) {
       router.push('/')
     }
   }, [isConnected, pathname, router])
