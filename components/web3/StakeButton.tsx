@@ -13,9 +13,10 @@ import {
 export function StakeButton({ amount }: { amount: number }) {
   const { data: hash, writeContract, isPending } = useWriteContract()
 
-  const { isLoading: isConfirming } = useWaitForTransactionReceipt({
-    hash
-  })
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash
+    })
 
   const { address } = useAccount()
 
@@ -28,6 +29,10 @@ export function StakeButton({ amount }: { amount: number }) {
     args: [address, seraphStakingConfig.address]
   })
   const allowance = rawAllowance ? Number(rawAllowance) / 1e18 : 0
+
+  useEffect(() => {
+    refetchAllowance()
+  }, [isConfirmed])
 
   useEffect(() => {
     setRequiresApproval(allowance < amount)
@@ -52,8 +57,6 @@ export function StakeButton({ amount }: { amount: number }) {
     setError(null)
 
     try {
-      await refetchAllowance()
-
       await writeContract({
         abi: seraphStakingConfig.abi,
         address: seraphStakingConfig.address,
