@@ -159,27 +159,27 @@ export default function Staking() {
             >
               Enter Amount:
             </label>
-            <div className="flex items-center space-x-4">
-              <input
-                id="stakeAmount"
-                type="number"
-                min="0"
-                max={balance.toString()} // Use floored balance
-                value={stakeAmount || ''}
-                onChange={(e) => handleInputChange(e.target.value)}
-                className="flex-1 rounded-lg border border-green-500 bg-black/70 px-4 py-2 font-mono text-green-400 outline-none focus:border-green-300"
-              />
-              <div className="flex space-x-2">
-                {[25, 50, 75, 100].map((percentage) => (
-                  <button
-                    key={percentage}
-                    onClick={() => handleSliderChange(percentage)}
-                    className="rounded-lg border border-green-500 bg-green-500/20 px-3 py-1 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300"
-                  >
-                    {percentage}%
-                  </button>
-                ))}
-              </div>
+            {/* Full-width Input Field */}
+            <input
+              id="stakeAmount"
+              type="number"
+              min="0"
+              max={balance.toString()} // Use floored balance
+              value={stakeAmount || ''}
+              onChange={(e) => handleInputChange(e.target.value)}
+              className="w-full rounded-lg border border-green-500 bg-black/70 px-4 py-2 font-mono text-green-400 outline-none focus:border-green-300"
+            />
+            {/* 2x2 Grid for Percentage Buttons */}
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              {[25, 50, 75, 100].map((percentage) => (
+                <button
+                  key={percentage}
+                  onClick={() => handleSliderChange(percentage)}
+                  className="rounded-lg border border-green-500 bg-green-500/20 px-3 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300"
+                >
+                  {percentage}%
+                </button>
+              ))}
             </div>
           </div>
           <StakeButton amount={stakeAmount} />
