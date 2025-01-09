@@ -16,24 +16,35 @@ export function useAuth() {
   const { data: rawBalance, isLoading: isBalanceLoading } = useReadContract({
     ...seraphContractConfig,
     functionName: 'balanceOf',
-    args: [address]
+    args: [address],
+    query: {
+      refetchInterval: 10000
+    }
   })
   const balance = rawBalance ? BigInt(rawBalance.toString()) : BigInt(0)
 
   const isAuth = isConnected && isSignedIn && balance > BigInt(100 * 1e18)
 
+  console.log(isConnecting, isSigningIn, isBalanceLoading)
   useEffect(() => {
-    // Only redirect if not on home page and not connected
-    if (
-      !isConnecting &&
-      !isBalanceLoading &&
-      !isSigningIn &&
-      !isAuth &&
-      pathname !== '/'
-    ) {
-      router.push('/')
+    if (!isConnecting && !isSigningIn && !isBalanceLoading) {
+      // Check only after all loading states are resolved
+      if (!isConnected || !isSignedIn || !isAuth) {
+        if (pathname !== '/') {
+          router.push('/')
+        }
+      }
     }
-  }, [isConnected, pathname, router])
+  }, [
+    isConnecting,
+    isSigningIn,
+    isBalanceLoading,
+    isConnected,
+    isSignedIn,
+    isAuth,
+    pathname,
+    router
+  ])
 
   return { isConnected, isSignedIn, isAuth, address, balance }
 }
