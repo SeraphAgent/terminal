@@ -159,27 +159,29 @@ export default function Staking() {
             >
               Enter Amount:
             </label>
-            {/* Full-width Input Field */}
-            <input
-              id="stakeAmount"
-              type="number"
-              min="0"
-              max={balance.toString()} // Use floored balance
-              value={stakeAmount || ''}
-              onChange={(e) => handleInputChange(e.target.value)}
-              className="w-full rounded-lg border border-green-500 bg-black/70 px-4 py-2 font-mono text-green-400 outline-none focus:border-green-300"
-            />
-            {/* 2x2 Grid for Percentage Buttons */}
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              {[25, 50, 75, 100].map((percentage) => (
-                <button
-                  key={percentage}
-                  onClick={() => handleSliderChange(percentage)}
-                  className="rounded-lg border border-green-500 bg-green-500/20 px-3 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300"
-                >
-                  {percentage}%
-                </button>
-              ))}
+            <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+              {/* Input Field */}
+              <input
+                id="stakeAmount"
+                type="number"
+                min="0"
+                max={balance.toString()} // Use floored balance
+                value={stakeAmount || ''}
+                onChange={(e) => handleInputChange(e.target.value)}
+                className="w-full rounded-lg border border-green-500 bg-black/70 px-4 py-2 font-mono text-green-400 outline-none focus:border-green-300 sm:flex-1"
+              />
+              {/* Buttons - Grid on Mobile */}
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:space-x-2 sm:space-y-0">
+                {[25, 50, 75, 100].map((percentage) => (
+                  <button
+                    key={percentage}
+                    onClick={() => handleSliderChange(percentage)}
+                    className="rounded-lg border border-green-500 bg-green-500/20 px-3 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300"
+                  >
+                    {percentage}%
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
           <StakeButton amount={stakeAmount} />
