@@ -1,11 +1,14 @@
 'use client'
 
+import { ClaimButton } from '@/components/web3/ClaimButton'
+import { StakeButton } from '@/components/web3/StakeButton'
+import { UnstakeButton } from '@/components/web3/UnstakeButton'
 import {
   seraphContractConfig,
   seraphStakingConfig
 } from '@/constants/contract-config'
 import { useState } from 'react'
-import { useAccount, useReadContract, useWriteContract } from 'wagmi'
+import { useAccount, useReadContract } from 'wagmi'
 
 export default function Staking() {
   const { address } = useAccount()
@@ -16,7 +19,7 @@ export default function Staking() {
     functionName: 'balanceOf',
     args: [address]
   })
-  const balance = rawBalance ? Number(rawBalance) / 1e18 : 0
+  const balance = rawBalance ? Math.floor(Number(rawBalance) / 1e18) : 0
 
   // Fetch the staked tokens
   const { data: rawStaked } = useReadContract({
@@ -24,7 +27,7 @@ export default function Staking() {
     functionName: 'balanceOf',
     args: [address]
   })
-  const stakedTokens = rawStaked ? Number(rawStaked) / 1e18 : 0
+  const stakedTokens = rawStaked ? Math.floor(Number(rawStaked) / 1e18) : 0
 
   // Fetch the rewards
   const { data: rawRewards } = useReadContract({
@@ -32,7 +35,7 @@ export default function Staking() {
     functionName: 'rewards',
     args: [address]
   })
-  const rewards = rawRewards ? Number(rawRewards) / 1e18 : 0
+  const rewards = rawRewards ? Math.floor(Number(rawRewards) / 1e18) : 0
 
   // Fetch lock end time
   const { data: rawLockEndTime } = useReadContract({
@@ -44,20 +47,13 @@ export default function Staking() {
 
   const [stakeAmount, setStakeAmount] = useState<number>(0)
 
-  // Write contract for staking
-  const { writeContract: stakeTokens, isPending: isStaking } =
-    useWriteContract()
-
-  // Write contract for unstaking
-  const { writeContract: unstakeTokens, isPending: isUnstaking } =
-    useWriteContract()
-
-  // Write contract for claiming rewards
-  const { writeContract: claimRewards, isPending: isClaiming } =
-    useWriteContract()
-
   const handleSliderChange = (percentage: number) => {
-    setStakeAmount((balance * percentage) / 100)
+    setStakeAmount(Math.floor((balance * percentage) / 100)) // Floor the calculated amount
+  }
+
+  const handleInputChange = (value: string) => {
+    const parsedValue = Math.floor(Number(value)) // Ensure only integers
+    setStakeAmount(parsedValue >= 0 ? parsedValue : 0)
   }
 
   // Calculate time left for unlock
@@ -78,16 +74,27 @@ export default function Staking() {
         Staking Dashboard
       </h1>
 
-      {/* Balance Section */}
-      <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
-        <h2 className="mb-2 text-xl font-bold text-green-400">Balance</h2>
-        <p className="text-2xl font-bold text-green-300">
-          {balance.toFixed(2)} SERAPH
-        </p>
+      {/* Balance and Rewards Section (Horizontal Stack) */}
+      <div className="mb-6 flex space-x-4">
+        {/* Balance Section */}
+        <div className="flex-1 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
+          <h2 className="mb-4 text-xl font-bold text-green-400">Balance</h2>
+          <p className="text-2xl font-bold text-green-300">{balance} SERAPH</p>
+        </div>
+
+        {/* Rewards Section */}
+        <div className="flex-1 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
+          <h2 className="mb-4 text-xl font-bold text-green-400">Rewards</h2>
+          <p className="mb-4 text-2xl font-bold text-green-300">
+            {rewards} stTAO
+          </p>
+          <ClaimButton />
+        </div>
       </div>
 
       {/* Stake Section */}
-      <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-6 backdrop-blur-sm">
+      <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
+        <h2 className="mb-4 text-xl font-bold text-green-400">Stake</h2>
         <div className="space-y-4">
           <div>
             <label
@@ -101,9 +108,9 @@ export default function Staking() {
                 id="stakeAmount"
                 type="number"
                 min="0"
-                max={balance.toString()}
+                max={balance.toString()} // Use floored balance
                 value={stakeAmount || ''}
-                onChange={(e) => setStakeAmount(Number(e.target.value))}
+                onChange={(e) => handleInputChange(e.target.value)}
                 className="flex-1 rounded-lg border border-green-500 bg-black/70 px-4 py-2 font-mono text-green-400 outline-none focus:border-green-300"
               />
               <div className="flex space-x-2">
@@ -119,52 +126,24 @@ export default function Staking() {
               </div>
             </div>
           </div>
-          <button
-            onClick={() => {}}
-            disabled={!stakeTokens || isStaking}
-            className="w-full rounded-lg border border-green-500 bg-green-500/20 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300 disabled:opacity-50"
-          >
-            {isStaking ? 'Staking...' : 'Stake'}
-          </button>
+          <StakeButton amount={stakeAmount} />
         </div>
       </div>
 
       {/* Unstake Section */}
-      <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-6 backdrop-blur-sm">
-        <p className="mb-4 text-center font-mono text-green-300">
+      <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
+        <h2 className="mb-4 text-xl font-bold text-green-400">Unstake</h2>
+        <p className="mb-4 text-green-300">
           Currently Staked:{' '}
-          <span className="font-bold">{stakedTokens.toFixed(2)} SERAPH</span>
+          <span className="font-bold">{stakedTokens} SERAPH</span>
         </p>
         {timeLeft > 0 ? (
-          <p className="mb-4 text-center font-mono text-green-300">
+          <p className="mb-4 text-green-300">
             Unlocks in:{' '}
             <span className="font-bold">{formatTimeLeft(timeLeft)}</span>
           </p>
         ) : null}
-        <button
-          onClick={() => {}}
-          disabled={stakedTokens === 0 || timeLeft > 0 || isUnstaking}
-          className="w-full rounded-lg border border-green-500 bg-green-500/20 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300 disabled:opacity-50"
-        >
-          {isUnstaking ? 'Unstaking...' : 'Unstake'}
-        </button>
-      </div>
-
-      {/* Rewards Section */}
-      <div className="rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
-        <h2 className="mb-4 text-center text-xl font-bold text-green-400">
-          Rewards
-        </h2>
-        <p className="text-2xl font-bold text-green-300">
-          {rewards.toFixed(2)} stTAO
-        </p>
-        <button
-          onClick={() => {}}
-          disabled={!claimRewards || isClaiming}
-          className="mt-4 w-full rounded-lg border border-green-500 bg-green-500/20 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300 disabled:opacity-50"
-        >
-          {isClaiming ? 'Claiming...' : 'Claim Rewards'}
-        </button>
+        <UnstakeButton amount={stakedTokens} timeLeft={timeLeft} />
       </div>
     </div>
   )
