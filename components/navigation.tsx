@@ -12,7 +12,7 @@ import {
   Terminal
 } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Button } from './ui/button'
 import {
@@ -24,8 +24,11 @@ import {
 import { ConnectButton } from './web3/ConnectButton'
 
 export function Navigation() {
-  const pathname = usePathname()
   const { isAuth } = useAuth()
+
+  const router = useRouter()
+  const pathname = usePathname()
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const links = !isAuth
@@ -70,14 +73,12 @@ export function Navigation() {
           <div className="flex items-center gap-6">
             <div className="group relative hidden lg:block">
               <Button
-                disabled
+                onClick={() => router.push('/stake')}
+                disabled={!isAuth}
                 className="border border-green-500/30 bg-green-500/10 font-mono text-green-500 hover:bg-green-500/20"
               >
                 Stake $SERAPH
               </Button>
-              <div className="absolute left-1/2 mt-2 hidden -translate-x-1/2 transform items-center justify-center whitespace-nowrap rounded-md border border-green-500/30 bg-green-900/90 px-3 py-1 font-mono text-xs text-green-400 shadow-md group-hover:flex">
-                Coming soon
-              </div>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
