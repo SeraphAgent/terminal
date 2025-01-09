@@ -25,14 +25,25 @@ export function useAuth() {
 
   const isAuth = isConnected && isSignedIn && balance > BigInt(100 * 1e18)
 
-  console.log(isConnecting, isSigningIn, isBalanceLoading)
   useEffect(() => {
-    if (!isConnecting && !isSigningIn && !isBalanceLoading) {
-      // Check only after all loading states are resolved
-      if (!isConnected || !isSignedIn || !isAuth) {
-        if (pathname !== '/') {
-          router.push('/')
-        }
+    // Immediate redirect if not connected
+    if (!isConnecting && !isConnected) {
+      if (pathname !== '/') {
+        router.push('/')
+      }
+      return
+    }
+
+    // Redirect if all other conditions fail
+    if (
+      !isConnecting &&
+      isConnected &&
+      !isSignedIn &&
+      !isBalanceLoading &&
+      (!isSignedIn || !isAuth)
+    ) {
+      if (pathname !== '/') {
+        router.push('/')
       }
     }
   }, [
