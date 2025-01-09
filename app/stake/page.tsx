@@ -126,13 +126,24 @@ export default function Staking() {
         {/* Rewards Section */}
         <div className="flex-1 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
           <h2 className="mb-4 text-xl font-bold text-green-400">Rewards</h2>
-          <p className="mb-4 text-2xl font-bold text-green-300">
-            {seraphRewards} SERAPH
-          </p>
-          <p className="mb-4 text-2xl font-bold text-green-300">
-            {taoRewards} stTAO
-          </p>
-          <ClaimButton taoRewards={taoRewards} seraphRewards={seraphRewards} />
+          <div className="space-y-4">
+            <div>
+              <p className="text-2xl font-bold text-green-300">
+                {seraphRewards}
+              </p>
+              <p className="text-sm font-bold text-green-400">SERAPH</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-green-300">{taoRewards}</p>
+              <p className="text-sm font-bold text-green-400">stTAO</p>
+            </div>
+          </div>
+          <div className="mt-6">
+            <ClaimButton
+              taoRewards={taoRewards}
+              seraphRewards={seraphRewards}
+            />
+          </div>
         </div>
       </div>
 
