@@ -10,7 +10,7 @@ export function useAuth() {
   const router = useRouter()
   const pathname = usePathname()
 
-  const { isConnected, address } = useAccount()
+  const { isConnected, isConnecting, address } = useAccount()
   const { isSignedIn } = useSIWE()
 
   const { data: rawBalance } = useReadContract({
@@ -24,7 +24,7 @@ export function useAuth() {
 
   useEffect(() => {
     // Only redirect if not on home page and not connected
-    if (!isAuth && pathname !== '/') {
+    if (!isConnecting && !isAuth && pathname !== '/') {
       router.push('/')
     }
   }, [isConnected, pathname, router])
