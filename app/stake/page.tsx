@@ -17,7 +17,10 @@ export default function Staking() {
   const { data: rawBalance } = useReadContract({
     ...seraphContractConfig,
     functionName: 'balanceOf',
-    args: [address]
+    args: [address],
+    query: {
+      refetchInterval: 3000
+    }
   })
   const balance = rawBalance ? Math.floor(Number(rawBalance) / 1e18) : 0
 
@@ -25,15 +28,21 @@ export default function Staking() {
   const { data: rawStaked } = useReadContract({
     ...seraphStakingConfig,
     functionName: 'balanceOf',
-    args: [address]
+    args: [address],
+    query: {
+      refetchInterval: 3000
+    }
   })
   const stakedTokens = rawStaked ? Math.floor(Number(rawStaked) / 1e18) : 0
 
   // Fetch the rewards
   const { data: rawRewards } = useReadContract({
     ...seraphStakingConfig,
-    functionName: 'rewards',
-    args: [address]
+    functionName: 'calculateRewardsEarned',
+    args: [address, '0x4f81837C2f4A189A0B69370027cc2627d93785B4'],
+    query: {
+      refetchInterval: 3000
+    }
   })
   const rewards = rawRewards ? Math.floor(Number(rawRewards) / 1e18) : 0
 
