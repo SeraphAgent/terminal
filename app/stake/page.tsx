@@ -63,7 +63,10 @@ export default function Staking() {
   const { data: rawLockEndTime } = useReadContract({
     ...seraphStakingConfig,
     functionName: 'lockEndTime',
-    args: [address]
+    args: [address],
+    query: {
+      refetchInterval: 3000
+    }
   })
   const lockEndTime = rawLockEndTime ? Number(rawLockEndTime) : 0
 
@@ -113,8 +116,7 @@ export default function Staking() {
           <p className="mb-4 text-2xl font-bold text-green-300">
             {taoRewards} stTAO
           </p>
-
-          <ClaimButton availableAmountToClaim={taoRewards} />
+          <ClaimButton taoRewards={taoRewards} seraphRewards={seraphRewards} />
         </div>
       </div>
 
