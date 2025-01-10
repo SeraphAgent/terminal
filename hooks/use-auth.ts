@@ -1,6 +1,9 @@
 'use client'
 
-import { seraphContractConfig } from '@/constants/contract-config'
+import {
+  seraphContractConfig,
+  seraphStakingConfig
+} from '@/constants/contract-config'
 import { useSIWE } from 'connectkit'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
@@ -13,6 +16,7 @@ export function useAuth() {
   const { isConnected, isConnecting, address } = useAccount()
   const { isSignedIn, isLoading: isSigningIn } = useSIWE()
 
+  // Fetch SERAPH balance
   const { data: rawBalance, isLoading: isBalanceLoading } = useReadContract({
     ...seraphContractConfig,
     functionName: 'balanceOf',
@@ -23,7 +27,24 @@ export function useAuth() {
   })
   const balance = rawBalance ? BigInt(rawBalance.toString()) : BigInt(0)
 
-  const isAuth = isConnected && isSignedIn && balance > BigInt(100 * 1e18)
+  // Fetch staked SERAPH balance
+  const { data: rawStakedBalance, isLoading: isStakedBalanceLoading } =
+    useReadContract({
+      ...seraphStakingConfig,
+      functionName: 'balanceOf',
+      args: [address],
+      query: {
+        refetchInterval: 10000
+      }
+    })
+  const stakedBalance = rawStakedBalance
+    ? BigInt(rawStakedBalance.toString())
+    : BigInt(0)
+
+  const isAuth =
+    isConnected &&
+    isSignedIn &&
+    (balance > BigInt(100 * 1e18) || stakedBalance > BigInt(100 * 1e18))
 
   useEffect(() => {
     // Immediate redirect if not connected
@@ -40,6 +61,7 @@ export function useAuth() {
       isConnected &&
       !isSignedIn &&
       !isBalanceLoading &&
+      !isStakedBalanceLoading &&
       (!isSignedIn || !isAuth)
     ) {
       if (pathname !== '/') {

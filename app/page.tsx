@@ -32,8 +32,8 @@ export default function Home() {
           {isAuth && <Terminal />}
           {!isAuth && (
             <div className="mt-8 text-center font-mono text-green-500">
-              You need to have at least 100 $SERAPH tokens in your wallet to
-              access the terminal.
+              You need to have at least 100 $SERAPH tokens in your wallet or
+              staked to access the terminal.
             </div>
           )}
           {isConnected && !isSignedIn && (
