@@ -71,6 +71,30 @@ export default function Staking() {
   })
   const lockEndTime = rawLockEndTime ? Number(rawLockEndTime) : 0
 
+  // Fetch totalSupply
+  const { data: rawTotalSupply } = useReadContract({
+    ...seraphStakingConfig,
+    functionName: 'totalSupply',
+    query: {
+      refetchInterval: 3000
+    }
+  })
+  const totalSupply = rawTotalSupply
+    ? Math.floor(Number(rawTotalSupply) / 1e18)
+    : 0
+
+  // Fetch stakingCap
+  const { data: rawStakingCap } = useReadContract({
+    ...seraphStakingConfig,
+    functionName: 'stakingCap',
+    query: {
+      refetchInterval: 3000
+    }
+  })
+  const stakingCap = rawStakingCap
+    ? Math.floor(Number(rawStakingCap) / 1e18)
+    : 0
+
   const [stakeAmount, setStakeAmount] = useState<number>(0)
 
   const resetStakeInput = () => setStakeAmount(0)
@@ -112,6 +136,8 @@ export default function Staking() {
     return `${days}d ${hours}h ${minutes}m`
   }
 
+  const isExceedsStakingCap = totalSupply + stakeAmount > stakingCap
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
       <h1 className="mb-6 text-center font-mono text-4xl font-bold text-green-500">
@@ -122,8 +148,26 @@ export default function Staking() {
       <div className="mb-6 flex space-x-4">
         {/* Balance Section */}
         <div className="flex-1 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
-          <h2 className="mb-4 text-xl font-bold text-green-400">Balance</h2>
-          <p className="text-2xl font-bold text-green-300">{balance} SERAPH</p>
+          <h2 className="mb-6 text-xl font-bold text-green-400">Balance</h2>
+          {/* Increased bottom margin */}
+          <p className="mb-6 text-2xl font-bold text-green-300">
+            {balance} SERAPH
+          </p>
+          {/* Added bottom margin */}
+          <div className="mt-8">
+            {/* Increased top margin */}
+            <h2 className="mb-4 text-xl font-bold text-green-400">Pool</h2>
+            <p className="mb-6 text-lg font-bold text-green-300">
+              {totalSupply} / {stakingCap} SERAPH
+            </p>
+            {/* Added bottom margin */}
+            <div className="relative mt-4 h-4 w-full rounded-full bg-green-500/20">
+              <div
+                className="absolute left-0 top-0 h-4 rounded-full bg-green-400"
+                style={{ width: `${(totalSupply / stakingCap) * 100}%` }}
+              ></div>
+            </div>
+          </div>
         </div>
 
         {/* Rewards Section */}
@@ -186,7 +230,14 @@ export default function Staking() {
               </div>
             </div>
           </div>
-          <StakeButton amount={stakeAmount} resetStakeInput={resetStakeInput} />
+          <StakeButton
+            amount={stakeAmount}
+            resetStakeInput={resetStakeInput}
+            isDisabled={isExceedsStakingCap}
+          />
+          {isExceedsStakingCap ? (
+            <p className="mt-2 text-sm text-red-500">Exceeds staking cap</p>
+          ) : null}
         </div>
       </div>
 

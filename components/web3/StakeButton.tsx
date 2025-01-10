@@ -12,10 +12,12 @@ import {
 
 export function StakeButton({
   amount,
-  resetStakeInput
+  resetStakeInput,
+  isDisabled
 }: {
   amount: number
   resetStakeInput: () => void
+  isDisabled: boolean
 }) {
   const { data: hash, writeContract, isPending } = useWriteContract()
 
@@ -97,7 +99,7 @@ export function StakeButton({
     <div>
       <button
         onClick={handleClick}
-        disabled={isLoading || amount <= 0}
+        disabled={isLoading || amount <= 0 || isDisabled}
         className="w-full rounded-lg border border-green-500 bg-green-500/20 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300 disabled:opacity-50"
       >
         {buttonText}
