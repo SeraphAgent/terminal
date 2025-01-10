@@ -135,6 +135,7 @@ export default function Staking() {
   }
 
   const isExceedsStakingCap = totalSupply + stakeAmount > stakingCap
+  const isExceedsBalance = stakeAmount > balance
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
@@ -228,9 +229,14 @@ export default function Staking() {
               </div>
             </div>
           </div>
-          <StakeButton amount={stakeAmount} isDisabled={isExceedsStakingCap} />
+          <StakeButton
+            amount={stakeAmount}
+            isDisabled={isExceedsStakingCap || isExceedsBalance}
+          />
           {isExceedsStakingCap ? (
             <p className="mt-2 text-sm text-red-500">Exceeds staking cap</p>
+          ) : isExceedsBalance ? (
+            <p className="mt-2 text-sm text-red-500">Exceeds your balance</p>
           ) : null}
         </div>
       </div>
