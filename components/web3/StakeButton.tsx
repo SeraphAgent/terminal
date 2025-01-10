@@ -10,7 +10,13 @@ import {
   useWriteContract
 } from 'wagmi'
 
-export function StakeButton({ amount }: { amount: number }) {
+export function StakeButton({
+  amount,
+  resetStakeInput
+}: {
+  amount: number
+  resetStakeInput: () => void
+}) {
   const { data: hash, writeContract, isPending } = useWriteContract()
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
@@ -32,6 +38,7 @@ export function StakeButton({ amount }: { amount: number }) {
 
   useEffect(() => {
     refetchAllowance()
+    resetStakeInput()
   }, [isConfirmed])
 
   useEffect(() => {

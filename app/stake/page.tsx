@@ -73,6 +73,8 @@ export default function Staking() {
 
   const [stakeAmount, setStakeAmount] = useState<number>(0)
 
+  const resetStakeInput = () => setStakeAmount(0)
+
   const handleSliderChange = (percentage: number) => {
     setStakeAmount(Math.floor((balance * percentage) / 100)) // Floor the calculated amount
   }
@@ -184,7 +186,7 @@ export default function Staking() {
               </div>
             </div>
           </div>
-          <StakeButton amount={stakeAmount} />
+          <StakeButton amount={stakeAmount} resetStakeInput={resetStakeInput} />
         </div>
       </div>
 
