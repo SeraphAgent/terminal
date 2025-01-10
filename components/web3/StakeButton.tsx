@@ -12,11 +12,9 @@ import {
 
 export function StakeButton({
   amount,
-  resetStakeInput,
   isDisabled
 }: {
   amount: number
-  resetStakeInput: () => void
   isDisabled: boolean
 }) {
   const { data: hash, writeContract, isPending } = useWriteContract()
@@ -40,7 +38,6 @@ export function StakeButton({
 
   useEffect(() => {
     refetchAllowance()
-    resetStakeInput()
   }, [isConfirmed])
 
   useEffect(() => {

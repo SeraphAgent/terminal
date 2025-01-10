@@ -97,8 +97,6 @@ export default function Staking() {
 
   const [stakeAmount, setStakeAmount] = useState<number>(0)
 
-  const resetStakeInput = () => setStakeAmount(0)
-
   const handleSliderChange = (percentage: number) => {
     setStakeAmount(Math.floor((balance * percentage) / 100)) // Floor the calculated amount
   }
@@ -230,11 +228,7 @@ export default function Staking() {
               </div>
             </div>
           </div>
-          <StakeButton
-            amount={stakeAmount}
-            resetStakeInput={resetStakeInput}
-            isDisabled={isExceedsStakingCap}
-          />
+          <StakeButton amount={stakeAmount} isDisabled={isExceedsStakingCap} />
           {isExceedsStakingCap ? (
             <p className="mt-2 text-sm text-red-500">Exceeds staking cap</p>
           ) : null}
