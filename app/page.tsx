@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks/use-auth'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
-  const { isConnected, isSignedIn, balance } = useAuth()
+  const { isAuth, isConnected, isSignedIn, balance } = useAuth()
 
   const [isLoaded, setIsLoaded] = useState(isSignedIn || false)
 
@@ -29,8 +29,8 @@ export default function Home() {
               Neural Consensus Interface v0.0.7
             </p>
           </header>
-          {isConnected && isSignedIn && balance > BigInt(0) && <Terminal />}
-          {isConnected && isSignedIn && balance <= BigInt(0) && (
+          {isAuth && <Terminal />}
+          {!isAuth && (
             <div className="mt-8 text-center font-mono text-green-500">
               You need to have at least 100 $SERAPH tokens in your wallet to
               access the terminal.
