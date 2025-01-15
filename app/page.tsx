@@ -29,21 +29,20 @@ export default function Home() {
               Neural Consensus Interface v0.0.7
             </p>
           </header>
-          {isAuth && <Terminal />}
-          {!isAuth && (
+          {isAuth ? (
+            <Terminal />
+          ) : !isConnected ? (
             <div className="mt-8 text-center font-mono text-green-500">
-              You need to have at least 100 $SERAPH tokens in your wallet or
-              staked to access the terminal.
+              Please connect your wallet to access the terminal.
             </div>
-          )}
-          {isConnected && !isSignedIn && (
+          ) : isConnected && !isSignedIn ? (
             <div className="mt-8 text-center font-mono text-green-500">
               Please sign in with your wallet to access the terminal.
             </div>
-          )}
-          {!isConnected && (
+          ) : (
             <div className="mt-8 text-center font-mono text-green-500">
-              Please connect your wallet to access the terminal.
+              You need to have at least 100 $SERAPH tokens in your wallet or
+              staked to access the terminal.
             </div>
           )}
         </div>
