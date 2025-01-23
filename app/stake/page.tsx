@@ -137,125 +137,171 @@ export default function Staking() {
   const isExceedsStakingCap = totalSupply + stakeAmount > stakingCap
   const isExceedsBalance = stakeAmount > balance
 
+  const [activeTab, setActiveTab] = useState<'v1' | 'v2'>('v1')
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
       <h1 className="mb-6 text-center font-mono text-4xl font-bold text-green-500">
         Staking Dashboard
       </h1>
 
-      {/* Balance and Rewards Section (Horizontal Stack) */}
-      <div className="mb-6 flex space-x-4">
-        {/* Balance Section */}
-        <div className="flex-1 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
-          <h2 className="mb-6 text-xl font-bold text-green-400">Balance</h2>
-          {/* Increased bottom margin */}
-          <p className="mb-6 text-2xl font-bold text-green-300">
-            {balance} SERAPH
-          </p>
-          {/* Added bottom margin */}
-          <div className="mt-8">
-            {/* Increased top margin */}
-            <h2 className="mb-4 text-xl font-bold text-green-400">Pool</h2>
-            <p className="mb-6 text-lg font-bold text-green-300">
-              {totalSupply} / {stakingCap} SERAPH
-            </p>
-            {/* Added bottom margin */}
-            <div className="relative mt-4 h-4 w-full rounded-full bg-green-500/20">
-              <div
-                className="absolute left-0 top-0 h-4 rounded-full bg-green-400"
-                style={{ width: `${(totalSupply / stakingCap) * 100}%` }}
-              ></div>
-            </div>
-          </div>
-        </div>
-
-        {/* Rewards Section */}
-        <div className="flex-1 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
-          <h2 className="mb-4 text-xl font-bold text-green-400">Rewards</h2>
-          <div className="space-y-4">
-            <div>
-              <p className="text-2xl font-bold text-green-300">
-                {seraphRewards}
-              </p>
-              <p className="text-sm font-bold text-green-400">SERAPH</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-green-300">{taoRewards}</p>
-              <p className="text-sm font-bold text-green-400">stTAO</p>
-            </div>
-          </div>
-          <div className="mt-6">
-            <ClaimButton
-              taoRewards={taoRewards}
-              seraphRewards={seraphRewards}
-            />
-          </div>
-        </div>
+      <div className="mb-8 flex justify-center space-x-4">
+        <button
+          onClick={() => setActiveTab('v1')}
+          className={`rounded-lg border px-6 py-2 font-mono transition ${
+            activeTab === 'v1'
+              ? 'border-green-500 bg-green-500/20 text-green-400'
+              : 'border-green-500/30 text-green-400/50 hover:border-green-500/50 hover:text-green-400'
+          }`}
+        >
+          V1
+        </button>
+        <button
+          onClick={() => setActiveTab('v2')}
+          className={`rounded-lg border px-6 py-2 font-mono transition ${
+            activeTab === 'v2'
+              ? 'border-green-500 bg-green-500/20 text-green-400'
+              : 'border-green-500/30 text-green-400/50 hover:border-green-500/50 hover:text-green-400'
+          }`}
+        >
+          V2
+        </button>
       </div>
 
-      {/* Stake Section */}
-      <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
-        <h2 className="mb-4 text-xl font-bold text-green-400">Stake</h2>
-        <div className="space-y-4">
-          <div>
-            <label
-              htmlFor="stakeAmount"
-              className="mb-2 block font-mono text-green-400"
-            >
-              Enter Amount:
-            </label>
-            <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
-              {/* Input Field */}
-              <input
-                id="stakeAmount"
-                type="number"
-                min="0"
-                max={balance.toString()} // Use floored balance
-                value={stakeAmount || ''}
-                onChange={(e) => handleInputChange(e.target.value)}
-                className="w-full rounded-lg border border-green-500 bg-black/70 px-4 py-2 font-mono text-green-400 outline-none focus:border-green-300 sm:flex-1"
-              />
-              {/* Buttons - Grid on Mobile */}
-              <div className="grid grid-cols-2 gap-2 sm:flex sm:space-x-2 sm:space-y-0">
-                {[25, 50, 75, 100].map((percentage) => (
-                  <button
-                    key={percentage}
-                    onClick={() => handleSliderChange(percentage)}
-                    className="rounded-lg border border-green-500 bg-green-500/20 px-3 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300"
-                  >
-                    {percentage}%
-                  </button>
-                ))}
+      {activeTab == 'v1' ? (
+        <div>
+          {/* Balance and Rewards Section (Horizontal Stack) */}
+          <div className="mb-6 flex space-x-4">
+            {/* Balance Section */}
+            <div className="flex-1 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
+              <h2 className="mb-6 text-xl font-bold text-green-400">Balance</h2>
+              {/* Increased bottom margin */}
+              <p className="mb-6 text-2xl font-bold text-green-300">
+                {balance} SERAPH
+              </p>
+              {/* Added bottom margin */}
+              <div className="mt-8">
+                {/* Increased top margin */}
+                <h2 className="mb-4 text-xl font-bold text-green-400">Pool</h2>
+                <p className="mb-6 text-lg font-bold text-green-300">
+                  {totalSupply} / {stakingCap} SERAPH
+                </p>
+                {/* Added bottom margin */}
+                <div className="relative mt-4 h-4 w-full rounded-full bg-green-500/20">
+                  <div
+                    className="absolute left-0 top-0 h-4 rounded-full bg-green-400"
+                    style={{ width: `${(totalSupply / stakingCap) * 100}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Rewards Section */}
+            <div className="flex-1 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
+              <h2 className="mb-4 text-xl font-bold text-green-400">Rewards</h2>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-2xl font-bold text-green-300">
+                    {seraphRewards}
+                  </p>
+                  <p className="text-sm font-bold text-green-400">SERAPH</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-green-300">
+                    {taoRewards}
+                  </p>
+                  <p className="text-sm font-bold text-green-400">stTAO</p>
+                </div>
+              </div>
+              <div className="mt-6">
+                <ClaimButton
+                  taoRewards={taoRewards}
+                  seraphRewards={seraphRewards}
+                />
               </div>
             </div>
           </div>
-          <StakeButton
-            amount={stakeAmount}
-            isDisabled={isExceedsStakingCap || isExceedsBalance}
-          />
-          {isExceedsStakingCap ? (
-            <p className="mt-2 text-sm text-red-500">Exceeds staking cap</p>
-          ) : isExceedsBalance ? (
-            <p className="mt-2 text-sm text-red-500">Exceeds your balance</p>
-          ) : null}
-        </div>
-      </div>
 
-      {/* Unstake Section */}
-      <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
-        <h2 className="mb-4 text-xl font-bold text-green-400">Unstake</h2>
-        <p className="mb-4 text-green-300">
-          Currently Staked:{' '}
-          <span className="font-bold">{stakedTokens} SERAPH</span>
-        </p>
-        {timeLeft > 0 ? (
-          <p className="mb-4 text-green-300">
-            Unlocks in:{' '}
-            <span className="font-bold">{formatTimeLeft(timeLeft)}</span>
+          {/* Stake Section */}
+          <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
+            <h2 className="mb-4 text-xl font-bold text-green-400">Stake</h2>
+            <div className="space-y-4">
+              <div>
+                <label
+                  htmlFor="stakeAmount"
+                  className="mb-2 block font-mono text-green-400"
+                >
+                  Enter Amount:
+                </label>
+                <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+                  {/* Input Field */}
+                  <input
+                    id="stakeAmount"
+                    type="number"
+                    min="0"
+                    max={balance.toString()} // Use floored balance
+                    value={stakeAmount || ''}
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    className="w-full rounded-lg border border-green-500 bg-black/70 px-4 py-2 font-mono text-green-400 outline-none focus:border-green-300 sm:flex-1"
+                  />
+                  {/* Buttons - Grid on Mobile */}
+                  <div className="grid grid-cols-2 gap-2 sm:flex sm:space-x-2 sm:space-y-0">
+                    {[25, 50, 75, 100].map((percentage) => (
+                      <button
+                        key={percentage}
+                        onClick={() => handleSliderChange(percentage)}
+                        className="rounded-lg border border-green-500 bg-green-500/20 px-3 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300"
+                      >
+                        {percentage}%
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <StakeButton
+                amount={stakeAmount}
+                isDisabled={isExceedsStakingCap || isExceedsBalance}
+              />
+              {isExceedsStakingCap ? (
+                <p className="mt-2 text-sm text-red-500">Exceeds staking cap</p>
+              ) : isExceedsBalance ? (
+                <p className="mt-2 text-sm text-red-500">
+                  Exceeds your balance
+                </p>
+              ) : null}
+            </div>
+          </div>
+
+          {/* Unstake Section */}
+          <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
+            <h2 className="mb-4 text-xl font-bold text-green-400">Unstake</h2>
+            <p className="mb-4 text-green-300">
+              Currently Staked:{' '}
+              <span className="font-bold">{stakedTokens} SERAPH</span>
+            </p>
+            {timeLeft > 0 ? (
+              <p className="mb-4 text-green-300">
+                Unlocks in:{' '}
+                <span className="font-bold">{formatTimeLeft(timeLeft)}</span>
+              </p>
+            ) : null}
+            <UnstakeButton amount={stakedTokens} timeLeft={timeLeft} />
+          </div>
+        </div>
+      ) : (
+        <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-12 text-center font-mono text-green-400 backdrop-blur-sm">
+          <h2 className="mb-4 text-2xl font-bold text-green-300">
+            🚀 Staking V2
+          </h2>
+          <p className="text-lg text-green-400/80">
+            Next generation staking platform
           </p>
-        ) : null}
-        <UnstakeButton amount={stakedTokens} timeLeft={timeLeft} />
-      </div>
+          <div className="mt-8 animate-pulse text-3xl">Coming Tomorrow...</div>
+          <div className="mt-6 text-sm text-green-500/50">
+            (See ya tomorrow!)
+          </div>
+        </div>
+      )}
     </div>
   )
 }
