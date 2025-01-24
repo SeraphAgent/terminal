@@ -2,7 +2,8 @@
 
 import {
   seraphContractConfig,
-  seraphStakingV1Config
+  seraphStakingV1Config,
+  seraphStakingV2Config
 } from '@/constants/contract-config'
 import { useSIWE } from 'connectkit'
 import { usePathname, useRouter } from 'next/navigation'
@@ -28,7 +29,7 @@ export function useAuth() {
   const balance = rawBalance ? BigInt(rawBalance.toString()) : BigInt(0)
 
   // Fetch staked SERAPH balance
-  const { data: rawStakedBalance, isLoading: isStakedBalanceLoading } =
+  const { data: rawStakedV1Balance, isLoading: isStakedV1BalanceLoading } =
     useReadContract({
       ...seraphStakingV1Config,
       functionName: 'balanceOf',
@@ -37,14 +38,29 @@ export function useAuth() {
         refetchInterval: 10000
       }
     })
-  const stakedBalance = rawStakedBalance
-    ? BigInt(rawStakedBalance.toString())
+  const stakedV1Balance = rawStakedV1Balance
+    ? BigInt(rawStakedV1Balance.toString())
+    : BigInt(0)
+
+  // Fetch staked SERAPH balance
+  const { data: rawStakedV2Balance, isLoading: isStakedV2BalanceLoading } =
+    useReadContract({
+      ...seraphStakingV2Config,
+      functionName: 'balanceOf',
+      args: [address],
+      query: {
+        refetchInterval: 10000
+      }
+    })
+  const stakedV2Balance = rawStakedV2Balance
+    ? BigInt(rawStakedV2Balance.toString())
     : BigInt(0)
 
   const isAuth =
     isConnected &&
     isSignedIn &&
-    (balance > BigInt(100 * 1e18) || stakedBalance > BigInt(100 * 1e18))
+    (balance > BigInt(100 * 1e18) ||
+      stakedV1Balance + stakedV2Balance > BigInt(100 * 1e18))
 
   useEffect(() => {
     // Immediate redirect if not connected
@@ -61,7 +77,8 @@ export function useAuth() {
       isConnected &&
       !isSignedIn &&
       !isBalanceLoading &&
-      !isStakedBalanceLoading &&
+      !isStakedV1BalanceLoading &&
+      !isStakedV2BalanceLoading &&
       (!isSignedIn || !isAuth)
     ) {
       if (pathname !== '/') {
