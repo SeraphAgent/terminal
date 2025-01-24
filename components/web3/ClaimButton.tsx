@@ -37,7 +37,7 @@ export function ClaimButton({
         abi: stakingConfig.abi,
         address: stakingConfig.address,
         functionName: 'claim',
-        args: isV1 ? [] : [tensorPlexStakedTaoConfig.address, rewardAddresses]
+        args: isV1 ? [] : [rewardAddresses]
       })
     } catch (err: any) {
       setError(err.message || 'Transaction failed')
