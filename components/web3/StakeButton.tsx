@@ -1,7 +1,4 @@
-import {
-  seraphContractConfig,
-  seraphStakingV1Config
-} from '@/constants/contract-config'
+import { seraphContractConfig } from '@/constants/contract-config'
 import { useEffect, useState } from 'react'
 import {
   useAccount,
@@ -19,8 +16,6 @@ export function StakeButton({
   isDisabled: boolean
   stakingConfig: any
 }) {
-  const isV1 = stakingConfig.address === seraphStakingV1Config.address
-
   const { data: hash, writeContract, isPending } = useWriteContract()
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
@@ -89,8 +84,6 @@ export function StakeButton({
   )
 
   const handleClick = async () => {
-    if (isV1) setError('V1 rewards ongoing, but new stakes must be in V2')
-
     if (requiresApproval) {
       await handleApprove()
     } else {

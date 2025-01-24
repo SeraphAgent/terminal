@@ -16,8 +16,6 @@ export default function StakingDashboard({
 }: {
   stakingConfig: any
 }) {
-  const isV1 = stakingConfig.address === seraphStakingV1Config.address
-
   const { address } = useAccount()
 
   // Fetch the token balance
@@ -143,6 +141,8 @@ export default function StakingDashboard({
   const isExceedsStakingCap = totalSupply + stakeAmount > stakingCap
   const isExceedsBalance = stakeAmount > balance
 
+  const isV1 = stakingConfig.address === seraphStakingV1Config.address
+
   return (
     <div>
       {/* Balance and Rewards Section (Horizontal Stack) */}
@@ -237,7 +237,9 @@ export default function StakingDashboard({
             amount={stakeAmount}
             isDisabled={isV1 ? true : isExceedsStakingCap || isExceedsBalance}
           />
-          {isExceedsStakingCap ? (
+          {isV1 ? (
+            <p className="mt-2 text-sm text-red-500">Use V2 to stake</p>
+          ) : isExceedsStakingCap ? (
             <p className="mt-2 text-sm text-red-500">Exceeds staking cap</p>
           ) : isExceedsBalance ? (
             <p className="mt-2 text-sm text-red-500">Exceeds your balance</p>
