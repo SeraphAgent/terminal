@@ -5,6 +5,7 @@ import { StakeButton } from '@/components/web3/StakeButton'
 import { UnstakeButton } from '@/components/web3/UnstakeButton'
 import {
   seraphContractConfig,
+  seraphStakingV1Config,
   tensorPlexStakedTaoConfig
 } from '@/constants/contract-config'
 import { useEffect, useState } from 'react'
@@ -15,6 +16,8 @@ export default function StakingDashboard({
 }: {
   stakingConfig: any
 }) {
+  const isV1 = stakingConfig.address === seraphStakingV1Config.address
+
   const { address } = useAccount()
 
   // Fetch the token balance
@@ -232,7 +235,7 @@ export default function StakingDashboard({
           <StakeButton
             stakingConfig={stakingConfig}
             amount={stakeAmount}
-            isDisabled={isExceedsStakingCap || isExceedsBalance}
+            isDisabled={isV1 ? true : isExceedsStakingCap || isExceedsBalance}
           />
           {isExceedsStakingCap ? (
             <p className="mt-2 text-sm text-red-500">Exceeds staking cap</p>

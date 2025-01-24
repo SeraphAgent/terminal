@@ -1,7 +1,10 @@
 'use client'
 
 import StakingDashboard from '@/components/staking/StakingDashboard'
-import { seraphStakingConfig } from '@/constants/contract-config'
+import {
+  seraphStakingV1Config,
+  seraphStakingV2Config
+} from '@/constants/contract-config'
 import { useState } from 'react'
 
 export default function Staking() {
@@ -36,22 +39,11 @@ export default function Staking() {
         </button>
       </div>
 
-      {activeTab == 'v1' ? (
-        <StakingDashboard stakingConfig={seraphStakingConfig} />
-      ) : (
-        <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-12 text-center font-mono text-green-400 backdrop-blur-sm">
-          <h2 className="mb-4 text-2xl font-bold text-green-300">
-            🚀 Staking V2
-          </h2>
-          <p className="text-lg text-green-400/80">
-            Next generation staking platform
-          </p>
-          <div className="mt-8 animate-pulse text-3xl">Coming Tomorrow...</div>
-          <div className="mt-6 text-sm text-green-500/50">
-            (See ya tomorrow!)
-          </div>
-        </div>
-      )}
+      <StakingDashboard
+        stakingConfig={
+          activeTab == 'v1' ? seraphStakingV1Config : seraphStakingV2Config
+        }
+      />
     </div>
   )
 }
