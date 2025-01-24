@@ -2,7 +2,7 @@
 
 import {
   seraphContractConfig,
-  seraphStakingConfig
+  seraphStakingV1Config
 } from '@/constants/contract-config'
 import { useSIWE } from 'connectkit'
 import { usePathname, useRouter } from 'next/navigation'
@@ -30,7 +30,7 @@ export function useAuth() {
   // Fetch staked SERAPH balance
   const { data: rawStakedBalance, isLoading: isStakedBalanceLoading } =
     useReadContract({
-      ...seraphStakingConfig,
+      ...seraphStakingV1Config,
       functionName: 'balanceOf',
       args: [address],
       query: {

@@ -1,11 +1,12 @@
-import { seraphStakingConfig } from '@/constants/contract-config'
 import { useState } from 'react'
 import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
 
 export function UnstakeButton({
+  stakingConfig,
   amount,
   timeLeft
 }: {
+  stakingConfig: any
   amount: number
   timeLeft: number
 }) {
@@ -27,8 +28,8 @@ export function UnstakeButton({
 
     try {
       await writeContract({
-        abi: seraphStakingConfig.abi,
-        address: seraphStakingConfig.address,
+        abi: stakingConfig.abi,
+        address: stakingConfig.address,
         functionName: 'unstake',
         args: [BigInt(amount * 1e18)]
       })

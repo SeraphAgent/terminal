@@ -1,7 +1,4 @@
-import {
-  seraphContractConfig,
-  seraphStakingConfig
-} from '@/constants/contract-config'
+import { seraphContractConfig } from '@/constants/contract-config'
 import { useEffect, useState } from 'react'
 import {
   useAccount,
@@ -11,11 +8,13 @@ import {
 } from 'wagmi'
 
 export function StakeButton({
+  stakingConfig,
   amount,
   isDisabled
 }: {
   amount: number
   isDisabled: boolean
+  stakingConfig: any
 }) {
   const { data: hash, writeContract, isPending } = useWriteContract()
 
@@ -32,7 +31,7 @@ export function StakeButton({
   const { data: rawAllowance, refetch: refetchAllowance } = useReadContract({
     ...seraphContractConfig,
     functionName: 'allowance',
-    args: [address, seraphStakingConfig.address]
+    args: [address, stakingConfig.address]
   })
   const allowance = rawAllowance ? Number(rawAllowance) / 1e18 : 0
 
@@ -52,7 +51,7 @@ export function StakeButton({
         abi: seraphContractConfig.abi,
         address: seraphContractConfig.address,
         functionName: 'approve',
-        args: [seraphStakingConfig.address, BigInt(amount * 1e18)]
+        args: [stakingConfig.address, BigInt(amount * 1e18)]
       })
     } catch (err: any) {
       setError(err.message || 'Approval failed')
@@ -64,8 +63,8 @@ export function StakeButton({
 
     try {
       await writeContract({
-        abi: seraphStakingConfig.abi,
-        address: seraphStakingConfig.address,
+        abi: stakingConfig.abi,
+        address: stakingConfig.address,
         functionName: 'stake',
         args: [BigInt(amount * 1e18)]
       })

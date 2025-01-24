@@ -1,11 +1,17 @@
-import { seraphStakingConfig } from '@/constants/contract-config'
+import {
+  seraphContractConfig,
+  seraphStakingV1Config,
+  tensorPlexStakedTaoConfig
+} from '@/constants/contract-config'
 import { useState } from 'react'
 import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
 
 export function ClaimButton({
+  stakingConfig,
   taoRewards,
   seraphRewards
 }: {
+  stakingConfig: any
   taoRewards: number
   seraphRewards: number
 }) {
@@ -17,15 +23,21 @@ export function ClaimButton({
 
   const [error, setError] = useState<string | null>(null)
 
+  const rewardAddresses = [
+    tensorPlexStakedTaoConfig.address,
+    seraphContractConfig.address
+  ]
+  const isV1 = stakingConfig.address === seraphStakingV1Config.address
+
   const handleClaim = async () => {
     setError(null)
 
     try {
       await writeContract({
-        abi: seraphStakingConfig.abi,
-        address: seraphStakingConfig.address,
+        abi: stakingConfig.abi,
+        address: stakingConfig.address,
         functionName: 'claim',
-        args: []
+        args: isV1 ? [] : [tensorPlexStakedTaoConfig.address, rewardAddresses]
       })
     } catch (err: any) {
       setError(err.message || 'Transaction failed')
