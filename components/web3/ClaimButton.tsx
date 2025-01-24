@@ -1,11 +1,12 @@
-import { seraphStakingConfig } from '@/constants/contract-config'
 import { useState } from 'react'
 import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
 
 export function ClaimButton({
+  stakingConfig,
   taoRewards,
   seraphRewards
 }: {
+  stakingConfig: any
   taoRewards: number
   seraphRewards: number
 }) {
@@ -22,8 +23,8 @@ export function ClaimButton({
 
     try {
       await writeContract({
-        abi: seraphStakingConfig.abi,
-        address: seraphStakingConfig.address,
+        abi: stakingConfig.abi,
+        address: stakingConfig.address,
         functionName: 'claim',
         args: []
       })
