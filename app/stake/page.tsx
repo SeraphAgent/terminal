@@ -8,7 +8,7 @@ import {
 import { useState } from 'react'
 
 export default function Staking() {
-  const [activeTab, setActiveTab] = useState<'v1' | 'v2'>('v1')
+  const [activeTab, setActiveTab] = useState<'v1' | 'v2'>('v2')
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">

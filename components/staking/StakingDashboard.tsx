@@ -157,17 +157,12 @@ export default function StakingDashboard({
           {/* Added bottom margin */}
           <div className="mt-8">
             {/* Increased top margin */}
-            <h2 className="mb-4 text-xl font-bold text-green-400">Pool</h2>
-            <p className="mb-6 text-lg font-bold text-green-300">
-              {totalSupply} / {stakingCap} SERAPH
+            <h2 className="mb-6 text-xl font-bold text-green-400">
+              Total Staked
+            </h2>
+            <p className="mb-6 text-2xl font-bold text-green-300">
+              {totalSupply} SERAPH
             </p>
-            {/* Added bottom margin */}
-            <div className="relative mt-4 h-4 w-full rounded-full bg-green-500/20">
-              <div
-                className="absolute left-0 top-0 h-4 rounded-full bg-green-400"
-                style={{ width: `${(totalSupply / stakingCap) * 100}%` }}
-              ></div>
-            </div>
           </div>
         </div>
 
