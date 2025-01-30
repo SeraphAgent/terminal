@@ -5,9 +5,9 @@ import { useAuth } from '@/hooks/use-auth'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
-  const { isAuth, isConnected, isSignedIn, balance } = useAuth()
+  const { isAuth, isConnected } = useAuth()
 
-  const [isLoaded, setIsLoaded] = useState(isSignedIn || false)
+  const [isLoaded, setIsLoaded] = useState(isConnected || false)
 
   useEffect(() => {
     setTimeout(() => setIsLoaded(true), 1000)
@@ -34,10 +34,6 @@ export default function Home() {
           ) : !isConnected ? (
             <div className="mt-8 text-center font-mono text-green-500">
               Please connect your wallet to access the terminal.
-            </div>
-          ) : isConnected && !isSignedIn ? (
-            <div className="mt-8 text-center font-mono text-green-500">
-              Please sign in with your wallet to access the terminal.
             </div>
           ) : (
             <div className="mt-8 text-center font-mono text-green-500">

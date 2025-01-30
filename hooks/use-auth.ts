@@ -5,7 +5,6 @@ import {
   seraphStakingV1Config,
   seraphStakingV2Config
 } from '@/constants/contract-config'
-import { useSIWE } from 'connectkit'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useAccount, useReadContract } from 'wagmi'
@@ -15,7 +14,6 @@ export function useAuth() {
   const pathname = usePathname()
 
   const { isConnected, isConnecting, address } = useAccount()
-  const { isSignedIn, isLoading: isSigningIn } = useSIWE()
 
   // Fetch SERAPH balance
   const { data: rawBalance, isLoading: isBalanceLoading } = useReadContract({
@@ -58,7 +56,6 @@ export function useAuth() {
 
   const isAuth =
     isConnected &&
-    isSignedIn &&
     (balance > BigInt(100 * 1e18) ||
       stakedV1Balance + stakedV2Balance > BigInt(100 * 1e18))
 
@@ -75,26 +72,16 @@ export function useAuth() {
     if (
       !isConnecting &&
       isConnected &&
-      !isSignedIn &&
       !isBalanceLoading &&
       !isStakedV1BalanceLoading &&
       !isStakedV2BalanceLoading &&
-      (!isSignedIn || !isAuth)
+      !isAuth
     ) {
       if (pathname !== '/') {
         router.push('/')
       }
     }
-  }, [
-    isConnecting,
-    isSigningIn,
-    isBalanceLoading,
-    isConnected,
-    isSignedIn,
-    isAuth,
-    pathname,
-    router
-  ])
+  }, [isConnecting, isBalanceLoading, isConnected, isAuth, pathname, router])
 
-  return { isConnected, isSignedIn, isAuth, address, balance }
+  return { isConnected, isAuth, address, balance }
 }

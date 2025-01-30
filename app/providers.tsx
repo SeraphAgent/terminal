@@ -1,7 +1,7 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ConnectKitProvider, SIWEConfig, SIWEProvider } from 'connectkit'
+import { ConnectKitProvider, SIWEConfig } from 'connectkit'
 import { type ReactNode, useEffect, useState } from 'react'
 import { SiweMessage } from 'siwe'
 import { type State, WagmiProvider } from 'wagmi'
@@ -60,11 +60,9 @@ export function Providers(props: {
   return (
     <WagmiProvider config={config} initialState={props.initialState}>
       <QueryClientProvider client={queryClient}>
-        <SIWEProvider {...siweConfig}>
-          <ConnectKitProvider theme="midnight">
-            {mounted && props.children}
-          </ConnectKitProvider>
-        </SIWEProvider>
+        <ConnectKitProvider theme="midnight">
+          {mounted && props.children}
+        </ConnectKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   )
