@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { useState } from 'react'
 import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
 
@@ -31,7 +32,7 @@ export function UnstakeButton({
         abi: stakingConfig.abi,
         address: stakingConfig.address,
         functionName: 'unstake',
-        args: [BigInt(amount * 1e18)]
+        args: [BigInt(new BigNumber(amount).multipliedBy(1e18).toString())]
       })
     } catch (err: any) {
       setError(err.message || 'Transaction failed')

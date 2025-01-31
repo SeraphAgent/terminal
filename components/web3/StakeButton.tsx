@@ -1,4 +1,5 @@
 import { seraphContractConfig } from '@/constants/contract-config'
+import BigNumber from 'bignumber.js'
 import { useEffect, useState } from 'react'
 import {
   useAccount,
@@ -66,7 +67,7 @@ export function StakeButton({
         abi: stakingConfig.abi,
         address: stakingConfig.address,
         functionName: 'stake',
-        args: [BigInt(amount * 1e18)]
+        args: [BigInt(new BigNumber(amount).multipliedBy(1e18).toString())]
       })
     } catch (err: any) {
       setError(err.message || 'Staking failed')
