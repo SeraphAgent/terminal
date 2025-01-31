@@ -67,7 +67,7 @@ export function StakeButton({
         abi: stakingConfig.abi,
         address: stakingConfig.address,
         functionName: 'stake',
-        args: [BigInt(new BigNumber(amount).multipliedBy(1e18).toString())]
+        args: [BigInt(new BigNumber(amount).multipliedBy(1e18).toFixed())]
       })
     } catch (err: any) {
       setError(err.message || 'Staking failed')

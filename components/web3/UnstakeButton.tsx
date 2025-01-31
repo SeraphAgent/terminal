@@ -32,7 +32,7 @@ export function UnstakeButton({
         abi: stakingConfig.abi,
         address: stakingConfig.address,
         functionName: 'unstake',
-        args: [BigInt(new BigNumber(amount).multipliedBy(1e18).toString())]
+        args: [BigInt(new BigNumber(amount).multipliedBy(1e18).toFixed())]
       })
     } catch (err: any) {
       setError(err.message || 'Transaction failed')
