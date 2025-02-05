@@ -30,7 +30,7 @@ export default function StakingDashboard({
   const balance = rawBalance ? Math.floor(Number(rawBalance) / 1e18) : 0
 
   // Fetch the staked tokens
-  const { data: rawStaked } = useReadContract({
+  const { data: rawStakedTokens } = useReadContract({
     ...stakingConfig,
     functionName: 'balanceOf',
     args: [address],
@@ -38,7 +38,9 @@ export default function StakingDashboard({
       refetchInterval: 3000
     }
   })
-  const stakedTokens = rawStaked ? Math.floor(Number(rawStaked) / 1e18) : 0
+  const stakedTokens = rawStakedTokens
+    ? Math.floor(Number(rawStakedTokens) / 1e18)
+    : 0
 
   // Fetch rewards in SERAPH
   const { data: rawSeraphRewards } = useReadContract({
@@ -257,7 +259,7 @@ export default function StakingDashboard({
         ) : null}
         <UnstakeButton
           stakingConfig={stakingConfig}
-          amount={stakedTokens}
+          amount={rawStakedTokens as bigint}
           timeLeft={timeLeft}
         />
       </div>

@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { useState } from 'react'
 import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
 
@@ -8,7 +7,7 @@ export function UnstakeButton({
   timeLeft
 }: {
   stakingConfig: any
-  amount: number
+  amount: bigint
   timeLeft: number
 }) {
   const { data: hash, writeContract, isPending } = useWriteContract()
@@ -32,7 +31,7 @@ export function UnstakeButton({
         abi: stakingConfig.abi,
         address: stakingConfig.address,
         functionName: 'unstake',
-        args: [BigInt(new BigNumber(amount).multipliedBy(1e18).toFixed())]
+        args: [amount]
       })
     } catch (err: any) {
       setError(err.message || 'Transaction failed')
@@ -45,7 +44,7 @@ export function UnstakeButton({
     <div>
       <button
         onClick={handleUnstake}
-        disabled={isLoading || amount === 0 || timeLeft > 0}
+        disabled={isLoading || amount === BigInt(0) || timeLeft > 0}
         className="w-full rounded-lg border border-green-500 bg-green-500/20 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300 disabled:opacity-50"
       >
         {isPending ? (
