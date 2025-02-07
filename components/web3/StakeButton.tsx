@@ -52,7 +52,7 @@ export function StakeButton({
         abi: seraphContractConfig.abi,
         address: seraphContractConfig.address,
         functionName: 'approve',
-        args: [stakingConfig.address, BigInt(amount * 1e18)]
+        args: [stakingConfig.address, BigInt(new BigNumber(amount).multipliedBy(1e18).toFixed())]
       })
     } catch (err: any) {
       setError(err.message || 'Approval failed')
