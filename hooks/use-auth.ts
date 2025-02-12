@@ -56,8 +56,8 @@ export function useAuth() {
 
   const isAuth =
     isConnected &&
-    (balance > BigInt(100 * 1e18) ||
-      stakedV1Balance + stakedV2Balance > BigInt(100 * 1e18))
+    (balance >= BigInt(100 * 1e18) ||
+      stakedV1Balance + stakedV2Balance >= BigInt(100 * 1e18))
 
   useEffect(() => {
     // Immediate redirect if not connected
