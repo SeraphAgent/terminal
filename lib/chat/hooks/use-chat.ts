@@ -174,29 +174,28 @@ export function useChat() {
           
           if (data.commandType === 'subnet_research') {
             agentInstructions = `Please provide a comprehensive investment analysis of this subnet based on all the data provided. Format your response as a clear due diligence report with these sections:
-          
-          SUBNET OVERVIEW:
-          A summary of what this subnet does, its purpose in the Bittensor ecosystem, and its current status.
-          
-          KEY METRICS:
-          - Rate: The exchange ratio between TAO (Bittensor's native token) and this subnet's Alpha token.
-          - Emission: Current new TAO tokens being distributed to the subnet.
-          - TAO Pool: Total TAO tokens allocated to this subnet for incentives and operations.
-          - Alpha Pool: The subnet's own token supply used for staking and rewards within this specific subnet.
-          - Tempo: The subnet's block production rate, indicating activity level.
-          - Registration cost: Cost in TAO to join as a validator/miner.
-          
-          NETWORK STRUCTURE:
-          Analysis of the subnet's validator distribution, decentralization level, and key participants.
-          
-          GOVERNANCE & PARAMETERS:
-          Explanation of the key hyperparameters and what they mean for the subnet's operation and governance.
-          
-          MARKET POSITION:
-          How this subnet compares to other subnets in the Bittensor ecosystem based on the subnet list data.
-          
-          INVESTMENT CONSIDERATIONS:
-          A balanced analysis of investment potential, including both opportunities and risks.`;
+            
+            SUBNET OVERVIEW:
+            A summary of what this subnet does, its purpose in the Bittensor ecosystem, and its current status.
+            
+            KEY METRICS:
+            - Price: The exchange ratio between TAO (Bittensor's native token) and this subnet's Alpha token.
+            - Market Cap: The total value of all tokens in the subnet.
+            - Emission: Current new TAO tokens being distributed to the subnet.
+            - Pool (τ_in): The amount of TAO tokens staked into the subnet (in TAO units, not percentage). Note that "k" means thousands.
+            - Pool (α_in): The amount of Alpha tokens staked into validators (in Alpha units, not percentage). Note that "k" means thousands.
+            - Stake (α_out): The total Alpha tokens staked to validators (in Alpha units, not percentage). Note that "k" means thousands.
+            - Supply (α): The total supply of Alpha tokens in the subnet out of a maximum 21M lifetime supply. Note that "k" means thousands.
+            - Rank: The subnet's position among all subnets based on emission rate.
+            
+            ANALYSIS:
+            What these metrics suggest about the subnet's health, adoption, and potential. Compare to other subnets where relevant.
+            
+            RISKS & OPPORTUNITIES:
+            The main risks and potential opportunities for someone considering investing in this subnet.
+            
+            CONCLUSION:
+            A summary of your analysis and key takeaways for investors.`;
           } else if (data.commandType === 'subnet_show') {
             agentInstructions = `Please provide a clear, investor-friendly explanation of this subnet information. Format your response for maximum readability:
           
@@ -255,7 +254,7 @@ export function useChat() {
 
           try {
             console.log(`[BTCLI] Sending request to agent API`);
-      
+            
             // Break the agent prompt into smaller chunks if it's too large
             const MAX_PROMPT_SIZE = 15000; // Adjust based on your API limits
             let agentPrompt = `${agentInstructions}\n\nCommand: ${data.originalCommand}\n\n`;
