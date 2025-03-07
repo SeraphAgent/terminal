@@ -37,6 +37,13 @@ export async function POST(request: Request) {
       'https://subnet-api.bitmindlabs.ai/detect-image',
       detectImageRequestOptions
     )
+
+    console.log('BitMind Raw Response:', {
+      status: detectImageResponse.status,
+      statusText: detectImageResponse.statusText,
+      headers: Object.fromEntries(detectImageResponse.headers.entries())
+    })
+
     if (!detectImageResponse.ok) {
       const errorText = await detectImageResponse.text()
       console.error('Detect Image API Error:', {
@@ -52,6 +59,13 @@ export async function POST(request: Request) {
 
     const detectionResults: DetectImageResponse =
       await detectImageResponse.json()
+
+    console.log('BitMind Parsed Results:', {
+      isAI: detectionResults.isAI,
+      confidence: detectionResults.confidence,
+      predictions: detectionResults.predictions,
+      fqdn: detectionResults.fqdn
+    })
 
     const additionalContext = `
       Image Detection Task:
@@ -155,7 +169,7 @@ export async function POST(request: Request) {
         status: messageResponse.status,
         statusText: messageResponse.statusText,
         body: errorText
-      })
+      })  
       return Response.json(
         { error: `Failed to send message: ${messageResponse.statusText}` },
         { status: messageResponse.status }

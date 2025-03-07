@@ -3,7 +3,33 @@ import { AnalysisClient } from './client'
 
 export const revalidate = 120
 
+const MOCK_AGENTS = [
+  {
+    id: '1',
+    name: 'Test Agent 1', 
+    status: 'active',
+    trust_score: 95,
+    ai_score: 88,
+    type: 'validator',
+    last_update: new Date().toISOString(),
+    x_handle: 'testagent1'
+  },
+  {
+    id: '2',
+    name: 'Test Agent 2',
+    status: 'training',
+    trust_score: 85,
+    ai_score: 92,
+    type: 'miner',
+    last_update: new Date().toISOString(),
+    x_handle: 'testagent2'
+  }
+]
+
 async function getAgents() {
+  if (process.env.NODE_ENV === 'development') {
+    return MOCK_AGENTS
+  }
   try {
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
