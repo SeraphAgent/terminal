@@ -1,11 +1,9 @@
 'use client'
 
 import { ClaimButton } from '@/components/web3/ClaimButton'
-import { StakeButton } from '@/components/web3/StakeButton'
 import { UnstakeButton } from '@/components/web3/UnstakeButton'
 import {
   seraphContractConfig,
-  seraphStakingV1Config,
   tensorPlexStakedTaoConfig
 } from '@/constants/contract-config'
 import { useEffect, useState } from 'react'
@@ -89,29 +87,6 @@ export default function StakingDashboard({
     ? Math.floor(Number(rawTotalSupply) / 1e18)
     : 0
 
-  // Fetch stakingCap
-  const { data: rawStakingCap } = useReadContract({
-    ...stakingConfig,
-    functionName: 'stakingCap',
-    query: {
-      refetchInterval: 3000
-    }
-  })
-  const stakingCap = rawStakingCap
-    ? Math.floor(Number(rawStakingCap) / 1e18)
-    : 0
-
-  const [stakeAmount, setStakeAmount] = useState<number>(0)
-
-  const handleSliderChange = (percentage: number) => {
-    setStakeAmount(Math.floor((balance * percentage) / 100)) // Floor the calculated amount
-  }
-
-  const handleInputChange = (value: string) => {
-    const parsedValue = Math.floor(Number(value)) // Ensure only integers
-    setStakeAmount(parsedValue >= 0 ? parsedValue : 0)
-  }
-
   // State to track time left
   const [timeLeft, setTimeLeft] = useState<number>(0)
 
@@ -140,11 +115,6 @@ export default function StakingDashboard({
     return `${days}d ${hours}h ${minutes}m`
   }
 
-  const isExceedsStakingCap = totalSupply + stakeAmount > stakingCap
-  const isExceedsBalance = stakeAmount > balance
-
-  const isV1 = stakingConfig.address === seraphStakingV1Config.address
-
   return (
     <div>
       {/* Balance and Rewards Section (Horizontal Stack) */}
@@ -152,13 +122,10 @@ export default function StakingDashboard({
         {/* Balance Section */}
         <div className="flex-1 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
           <h2 className="mb-6 text-xl font-bold text-green-400">Balance</h2>
-          {/* Increased bottom margin */}
           <p className="mb-6 text-2xl font-bold text-green-300">
             {balance} SERAPH
           </p>
-          {/* Added bottom margin */}
           <div className="mt-8">
-            {/* Increased top margin */}
             <h2 className="mb-6 text-xl font-bold text-green-400">
               Total Staked
             </h2>
@@ -193,57 +160,6 @@ export default function StakingDashboard({
         </div>
       </div>
 
-      {/* Stake Section */}
-      <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
-        <h2 className="mb-4 text-xl font-bold text-green-400">Stake</h2>
-        <div className="space-y-4">
-          <div>
-            <label
-              htmlFor="stakeAmount"
-              className="mb-2 block font-mono text-green-400"
-            >
-              Enter Amount:
-            </label>
-            <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
-              {/* Input Field */}
-              <input
-                id="stakeAmount"
-                type="number"
-                min="0"
-                max={balance.toString()} // Use floored balance
-                value={stakeAmount || ''}
-                onChange={(e) => handleInputChange(e.target.value)}
-                className="w-full rounded-lg border border-green-500 bg-black/70 px-4 py-2 font-mono text-green-400 outline-none focus:border-green-300 sm:flex-1"
-              />
-              {/* Buttons - Grid on Mobile */}
-              <div className="grid grid-cols-2 gap-2 sm:flex sm:space-x-2 sm:space-y-0">
-                {[25, 50, 75, 100].map((percentage) => (
-                  <button
-                    key={percentage}
-                    onClick={() => handleSliderChange(percentage)}
-                    className="rounded-lg border border-green-500 bg-green-500/20 px-3 py-2 font-mono text-green-400 transition hover:bg-green-400/20 hover:text-green-300"
-                  >
-                    {percentage}%
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-          <StakeButton
-            stakingConfig={stakingConfig}
-            amount={stakeAmount}
-            isDisabled={isV1 ? true : isExceedsStakingCap || isExceedsBalance}
-          />
-          {isV1 ? (
-            <p className="mt-2 text-sm text-red-500">Use V2 to stake</p>
-          ) : isExceedsStakingCap ? (
-            <p className="mt-2 text-sm text-red-500">Exceeds staking cap</p>
-          ) : isExceedsBalance ? (
-            <p className="mt-2 text-sm text-red-500">Exceeds your balance</p>
-          ) : null}
-        </div>
-      </div>
-
       {/* Unstake Section */}
       <div className="mb-6 rounded-lg border border-green-500/30 bg-black/50 p-6 text-center font-mono text-green-400 backdrop-blur-sm">
         <h2 className="mb-4 text-xl font-bold text-green-400">Unstake</h2>
@@ -262,6 +178,13 @@ export default function StakingDashboard({
           amount={rawStakedTokens as bigint}
           timeLeft={timeLeft}
         />
+        
+        {/* Migration Message */}
+        <div className="mt-6 rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4 backdrop-blur-sm">
+          <p className="font-mono text-sm text-yellow-400">
+            ⚠️ Seraph Staking is migrating to Virtuals
+          </p>
+        </div>
       </div>
     </div>
   )
