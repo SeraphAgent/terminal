@@ -3,7 +3,6 @@
 import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
 import {
-  BarChart2,
   ChevronDown,
   Coins,
   ExternalLink,
@@ -24,21 +23,18 @@ import {
 import { ConnectButton } from './web3/ConnectButton'
 
 export function Navigation() {
-  const { isAuth } = useAuth()
+  const { isConnected } = useAuth()
 
   const router = useRouter()
   const pathname = usePathname()
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  const links = !isAuth
-    ? null
-    : [
-        { href: '/', label: 'Home', icon: Terminal },
-        { href: '/analysis', label: 'Analysis', icon: BarChart2 },
-        { href: '/stake', label: 'Stake', icon: Coins },
-        { href: '/docs', label: 'Docs', icon: FileText }
-      ]
+  const links = [
+    { href: '/', label: 'Home', icon: Terminal },
+    { href: '/stake', label: 'Stake', icon: Coins },
+    { href: '/docs', label: 'Docs', icon: FileText }
+  ]
 
   return (
     <nav className="border-b border-green-500/30 backdrop-blur-sm">
@@ -54,7 +50,7 @@ export function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex lg:space-x-8">
-            {links?.map(({ href, label, icon: Icon }) => (
+            {links.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
@@ -74,7 +70,6 @@ export function Navigation() {
             <div className="group relative hidden lg:block">
               <Button
                 onClick={() => router.push('/stake')}
-                disabled={!isAuth}
                 className="border border-green-500/30 bg-green-500/10 font-mono text-green-500 hover:bg-green-500/20"
               >
                 Stake $SERAPH
@@ -142,7 +137,7 @@ export function Navigation() {
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="pb-4 lg:hidden">
-            {links?.map(({ href, label, icon: Icon }) => (
+            {links.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
